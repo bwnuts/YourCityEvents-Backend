@@ -1,2 +1,2 @@
 # YourCityEvents-Backend
-Repository fo backend 
+Repository for backend 
