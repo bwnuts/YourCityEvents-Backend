@@ -10,6 +10,7 @@ namespace YourCityEventsApi.Model
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         
+<<<<<<< HEAD
         [BsonElement("UserName")]
         public string UserName { get; set; }
         
@@ -38,6 +39,26 @@ namespace YourCityEventsApi.Model
         public EventModel[] VisitingEvents { get; set; }
 
         [BsonElement("ImageUrl")]
+=======
+        public string UserName { get; set; }
+        
+        public string Password { get; set; }
+        
+        public string FirstName { get; set; }
+        
+        public string LastName { get; set; }
+        
+        public string Bio { get; set; }
+        
+        public string Email { get; set; }
+
+        public CityModel City { get; set; }
+
+        public EventModel[] HostingEvents { get; set; }
+        
+        public EventModel[] VisitingEvents { get; set; }
+
+>>>>>>> d954089b35a675d5580494283b8206dd0577cf90
         public string ImageUrl { get; set; }
 
         public UserModel(string id, string userName, string password, string firstName

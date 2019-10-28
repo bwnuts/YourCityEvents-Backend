@@ -11,8 +11,11 @@
         <PackageReference Include="MongoDB.Driver" Version="2.9.2" />
     </ItemGroup>
 
+<<<<<<< HEAD
     <ItemGroup>
       <Folder Include="Sources" />
     </ItemGroup>
 
+=======
+>>>>>>> d954089b35a675d5580494283b8206dd0577cf90
 </Project>
