@@ -1,0 +1,14 @@
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/bin/Debug/netcoreapp2.2/YourCityEventsApi.deps.json
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/bin/Debug/netcoreapp2.2/YourCityEventsApi.runtimeconfig.json
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/bin/Debug/netcoreapp2.2/YourCityEventsApi.runtimeconfig.dev.json
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/bin/Debug/netcoreapp2.2/YourCityEventsApi.dll
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/bin/Debug/netcoreapp2.2/YourCityEventsApi.pdb
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.csprojAssemblyReference.cache
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.csproj.CoreCompileInputs.cache
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.RazorAssemblyInfo.cache
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.RazorAssemblyInfo.cs
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.AssemblyInfoInputs.cache
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.AssemblyInfo.cs
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.RazorTargetAssemblyInfo.cache
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.dll
+/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.pdb

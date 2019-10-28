@@ -1,0 +1,73 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj": {}
+  },
+  "projects": {
+    "/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
+        "projectName": "YourCityEventsApi",
+        "projectPath": "/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
+        "packagesPath": "/home/bwnuts/.nuget/packages/",
+        "outputPath": "/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/home/bwnuts/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.9.2, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
