@@ -25,7 +25,7 @@ namespace YourCityEventsApi.UseCases
         {
             if (!string.IsNullOrEmpty(message.UserName) && !string.IsNullOrEmpty(message.Password))
             {
-                var user =  _userService.GetByName(message.UserName);
+                var user =  _userService.Get(message.UserName);
                 if (user != null)
                 {
                     if ( _userService.CheckPassword(user.Id, message.Password)) ;

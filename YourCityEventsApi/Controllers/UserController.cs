@@ -24,7 +24,7 @@ namespace YourCityEventsApi.Controllers
         public ActionResult<List<UserModel>> Get() =>
             _userService.Get();
 
-        [HttpGet("{id}",Name="GetUser")]
+        [HttpGet("{id}")]
         public ActionResult<UserModel> Get(string id)
         {
             var user = _userService.Get(id);
@@ -36,9 +36,7 @@ namespace YourCityEventsApi.Controllers
         [HttpPost]
         public ActionResult<UserModel> Create(UserModel userModel)
         {
-            _userService.Create(userModel);
-            return CreatedAtRoute("GetBook", 
-                new {id = userModel.Id.ToString()},userModel);
+            return _userService.Create(userModel);
         }
 
         [HttpPut("{id}")]
@@ -57,69 +55,8 @@ namespace YourCityEventsApi.Controllers
             var user = _userService.Get(id);
             if (user == null)
                 return NotFound();
-            _userService.Remove(user.Id);
+            _userService.Delete(user.Id);
             return Ok();
         }
-        /*private async Task<IEnumerable<UserModel>> GetUsersInternal()
-        {
-            return await _userRepository.GetAllUsers();
-        }
-        
-        [HttpGet("all")]
-        public Task<IEnumerable<UserModel>> Get()
-        {
-            return _userRepository.GetAllUsers();
-            //return this.ToJson(_userRepository.GetAllUsers());
-            /*List<UserModel> list = new List<UserModel>();
-            list.Add(
-                new UserModel("1", "biba"
-                    , "qwerty", "biba", "biba"
-                    , "bio", "email", new CityModel()));
-            list.Add(
-                new UserModel("2", "biba"
-                    , "qwerty", "biba", "biba"
-                    , "bio", "email", new CityModel()));
-    
-            return list;#1#
-        }*/
-
-            /*private async Task<UserModel> GetUserByIdInternal(string id)
-            {
-                return await _userRepository.GetUserById(id);
-            }
-            
-            [HttpGet("{id}")]
-            public Task<UserModel> Get(string id)
-            {
-                Console.WriteLine(GetUserByIdInternal(id));
-                return GetUserByIdInternal(id);
-            }
-    
-            [HttpPost]
-            public void Post(UserModel user)
-            {
-                _userRepository.CreateUser(user);
-            }
-    
-            [HttpPut("{id}")]
-            public void Put(string id, UserModel user)
-            {
-                _userRepository.UpdateUser(id, user);
-            }
-    
-            [HttpDelete("id")]
-            public void Delete(string id)
-            {
-                _userRepository.RemoveUser(id);
-            }
-    
-            [HttpPost("/post")]
-            public void Post()
-            {
-                UserModel user = new UserModel("1", "biba"
-                    , "qwerty", "biba", "biba"
-                    , "bio", "email", new CityModel());
-                _userRepository.CreateUser(user);
-            }*/
     }
 }

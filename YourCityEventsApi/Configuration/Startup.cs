@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using YourCityEventsApi.Model;
+using YourCityEventsApi.Services;
 
 namespace YourCityEventsApi
 {
@@ -29,6 +30,8 @@ namespace YourCityEventsApi
                 sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             
             services.AddSingleton<Services.UserService>();
+            services.AddSingleton<EventService>();
+            services.AddSingleton<CityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
