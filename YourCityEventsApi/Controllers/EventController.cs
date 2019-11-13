@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Emit;
@@ -21,47 +22,78 @@ namespace YourCityEventsApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<EventModel>> Get() =>
-            _eventService.Get();
+        public ActionResult<ResponseModel<List<EventModel>>> Get()
+        {
+           List<EventModel> eventList = _eventService.Get();
+           if (eventList != null)
+           {
+               return new ResponseModel<List<EventModel>>(eventList);
+           }
+
+           return new ResponseModel<List<EventModel>>(null, "false", new[] {"Unable to get events"});
+        }
 
         [HttpGet("{id}")]
-        public ActionResult<EventModel> Get(string id)
+        public ActionResult<ResponseModel<EventModel>> Get(string id)
         {
-            var Event = _eventService.Get(id);
-            if (Event == null)
-                return NotFound();
-            return Event;
+            EventModel Event = _eventService.Get(id);
+            if (Event != null)
+            {
+                return new ResponseModel<EventModel>(Event);
+            }
+            
+            return new ResponseModel<EventModel>(null, "false", new[] {"Event not found"});
         }
 
         [HttpGet("{id}/visitors")]
-        public ActionResult<List<UserModel>> GetVisitors(string id) =>
-            _eventService.GetVisitors(id);
-        
-
-            [HttpPost]
-        public ActionResult<EventModel> Create(EventModel eventModel)
+        public ActionResult<ResponseModel<List<UserModel>>> GetVisitors(string id)
         {
-            return _eventService.Create(eventModel);
+           List<UserModel> userList= _eventService.GetVisitors(id);
+           if (userList != null)
+           {
+               return new ResponseModel<List<UserModel>>(userList, "true");
+           }
+           
+           return new ResponseModel<List<UserModel>>(null, "false", new[] {"Unable to get users"});
+        }
+
+        [HttpPost]
+        public ActionResult<ResponseModel<EventModel>> Create(EventModel eventModel)
+        {
+            EventModel Event = _eventService.Create(eventModel);
+            if (Event != null)
+            {
+                return new ResponseModel<EventModel>(Event);
+            }
+            
+            return new ResponseModel<EventModel>(null, "false", new[] {"Unable to create event"});
+
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(string id, EventModel eventModel)
+        public ActionResult<ResponseModel<EventModel>> Update(string id, EventModel eventModel)
         {
-            var Event = _eventService.Get(id);
-            if (Event == null)
-                return NotFound();
-            _eventService.Update(id,eventModel);
-            return Ok();
+            EventModel Event = _eventService.Get(id);
+            if (Event != null)
+            {
+                _eventService.Update(id,eventModel);
+                return new ResponseModel<EventModel> (eventModel);
+            }
+            
+            return new ResponseModel<EventModel>(null, "false", new[] {"Unable to find event for updating"});
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public ActionResult<ResponseModel<string>> Delete(string id)
         {
-            var Event = _eventService.Get(id);
-            if (Event == null)
-                return NotFound();
-            _eventService.Delete(Event.Id);
-            return Ok();
+            EventModel Event = _eventService.Get(id);
+            if (Event != null)
+            {
+                _eventService.Delete(id);
+                return new ResponseModel<string>(null,"Ok");
+            }
+            
+            return new ResponseModel<string>(null, "false", new[] {"Unable to find event for deleting"});
         }
     }
 }

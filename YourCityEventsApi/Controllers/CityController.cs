@@ -1,6 +1,8 @@
+using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using YourCityEventsApi.Services;
 using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.AspNetCore.Authorization;
 using YourCityEventsApi.Model;
 
@@ -17,46 +19,67 @@ namespace YourCityEventsApi.Controllers
         {
             _cityService = cityService;
         }
-        
+
         [HttpGet]
-        public ActionResult<List<CityModel>> Get() =>
-            _cityService.Get();
+        public ActionResult<ResponseModel<List<CityModel>>> Get()
+        {
+            List<CityModel> cityList = _cityService.Get();
+            if (cityList != null)
+            {
+                return new ResponseModel<List<CityModel>>(cityList);
+            }
+
+            return new ResponseModel<List<CityModel>>(null, "false", new[] {"Unable to get models"});
+        }
 
         [HttpGet("{id}")]
-        public ActionResult<CityModel> Get(string id)
+        public ActionResult<ResponseModel<CityModel>> Get(string id)
         {
-            var city = _cityService.Get(id);
-            if (city == null)
-                return NotFound();
-            return city;
+            CityModel city = _cityService.Get(id);
+            if (city != null)
+            {
+                return new ResponseModel<CityModel>(city);
+            }
+            
+            return new ResponseModel<CityModel>(null,"false",new[]{"City not found"});
         }
 
         [HttpPost]
-        public ActionResult<CityModel> Create(CityModel cityModel)
+        public ActionResult<ResponseModel<CityModel>> Create(CityModel cityModel)
         {
-            return _cityService.Create(cityModel);
+             CityModel city = _cityService.Create(cityModel);
+             if (city != null)
+             {
+                 return new ResponseModel<CityModel> (city);
+             }
+             
+             return new ResponseModel<CityModel>(null,"false",new[]{"Unable to create city"});
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(string id,CityModel cityModel)
+        public ActionResult<ResponseModel<CityModel>> Update(string id,CityModel cityModel)
         {
             var city = _cityService.Get(id);
-            if (city == null)
+            if (city != null)
             {
-                return NotFound();
+                _cityService.Update(id, cityModel);
+                return new ResponseModel<CityModel>(cityModel);
             }
-            _cityService.Update(id, cityModel);
-            return Ok();
+
+            return new ResponseModel<CityModel>(null, "false", new[] {"Unable to find city for updating"});
         }
         
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public ActionResult<ResponseModel<string>> Delete(string id)
         {
             var city = _cityService.Get(id);
-            if (city == null)
-                return NotFound();
-            _cityService.Delete(city.Id);
-            return Ok();
+            if (city != null)
+            {
+                _cityService.Delete(id);
+                return new ResponseModel<string>(null, "Ok");
+            }
+
+            return new ResponseModel<string>(null, "false", new[] {"Unable to find city for deleting"});
         }
     }
 }
