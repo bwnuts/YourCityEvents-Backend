@@ -6,7 +6,7 @@ using YourCityEventsApi.Services;
 
 namespace YourCityEventsApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -22,9 +22,12 @@ namespace YourCityEventsApi.Controllers
         public ActionResult<List<UserModel>> Get() =>
             _userService.Get();
 
-        [HttpGet("{token}")]
-        public ActionResult<UserModel> Get(string token)=>
-            _userService.Get(token);
+        [HttpGet]
+        public ActionResult<UserModel> Get([FromHeader] string Authorization)
+        {
+            string token = Authorization.Split()[1];
+            return _userService.Get(token);
+        }
 
         [HttpGet("byId/{id}")]
         public ActionResult<UserModel> GetById(string id)
