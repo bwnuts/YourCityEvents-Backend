@@ -6,7 +6,7 @@ using YourCityEventsApi.Services;
 
 namespace YourCityEventsApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -17,56 +17,107 @@ namespace YourCityEventsApi.Controllers
         {
             _userService = userService;
         }
-        
+
         [HttpGet("all")]
-        public ActionResult<List<UserModel>> Get() =>
-            _userService.Get();
+        public ActionResult<ResponseModel<List<UserModel>>> Get()
+        {
+            List<UserModel> userList= _userService.Get();
+            if (userList != null)
+            {
+                return new ResponseModel<List<UserModel>>(userList);
+            }
 
-        [HttpGet("{token}")]
-        public ActionResult<UserModel> Get(string token)=>
-            _userService.Get(token);
+            return new ResponseModel<List<UserModel>>(null, "false", new[] {"Unable to get models"});
+        }
 
-        [HttpGet("byId/{id}")]
-        public ActionResult<UserModel> GetById(string id)
+        [HttpGet]
+        public ActionResult<ResponseModel<UserModel>> Get([FromHeader] string Authorization)
+        {
+            string token = Authorization.Split()[1];
+            UserModel user = _userService.Get(token);
+            if (user != null)
+            {
+                return new ResponseModel<UserModel>(user);
+            }
+            
+            return new ResponseModel<UserModel>(null, "false", new[] {"User not found"});
+
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<ResponseModel<UserModel>> GetById(string id)
         {
             var user = _userService.GetById(id);
-            if (user == null)
-                return NotFound();
-            return user;
+            if (user != null)
+            {
+                return new ResponseModel<UserModel>(user);
+            }
+            
+            return new ResponseModel<UserModel>(null, "false", new[] {"User not found"});
+
         }
 
         [HttpGet("{id}/hostingEvents")]
-        public ActionResult<List<EventModel>> GetHostingEvents(string id) =>
-            _userService.GetHostingEvents(id);
+        public ActionResult<ResponseModel<List<EventModel>>> GetHostingEvents(string id)
+        {
+            List<EventModel> eventList=  _userService.GetHostingEvents(id);
+            if (eventList != null)
+            {
+                return new ResponseModel<List<EventModel>>(eventList);
+            }
+            
+            return new ResponseModel<List<EventModel>>(null, "false", new[] {"Unable to get events"});
+
+        }
 
         [HttpGet("{id}/visitingEvents")]
-        public ActionResult<List<EventModel>> GetVisitingEvents(string id) =>
-            _userService.GetVisitingEvents(id);
+        public ActionResult<ResponseModel<List<EventModel>>> GetVisitingEvents(string id)
+        {
+            List<EventModel> eventList=_userService.GetVisitingEvents(id);
+            if (eventList != null)
+            {
+                return new ResponseModel<List<EventModel>>(eventList);
+            }
+            
+            return new ResponseModel<List<EventModel>>(null, "false", new[] {"Unable to get events"});
+        }
 
         [HttpPost]
-        public ActionResult<UserModel> Create(UserModel userModel)
+        public ActionResult<ResponseModel<UserModel>> Create(UserModel userModel)
         {
-            return _userService.Create(userModel);
+            UserModel user= _userService.Create(userModel);
+            if (user != null)
+            {
+                return new ResponseModel<UserModel>(user);
+            }
+            
+            return new ResponseModel<UserModel>(null, "false", new[] {"Unable to create user"});
         }
         
         [HttpPut("{id}")]
-        public IActionResult Update(string id,UserModel userModel)
+        public ActionResult<ResponseModel<UserModel>> Update(string id,UserModel userModel)
         {
             var user = _userService.Get(id);
-            if (user == null)
-                return NotFound();
-            _userService.Update(id, userModel);
-            return Ok();
+            if (user != null)
+            {
+                _userService.Update(id,userModel);
+                return new ResponseModel<UserModel>(userModel);
+            }
+            
+            return new ResponseModel<UserModel>(null, "false", new[] {"Unable to find user for updating"});
         }
         
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public ActionResult<ResponseModel<string>> Delete(string id)
         {
             var user = _userService.Get(id);
-            if (user == null)
-                return NotFound();
-            _userService.Delete(user.Id);
-            return Ok();
+            if (user != null)
+            {
+                _userService.Delete(id);
+                return new ResponseModel<string>(null, "Ok");
+            }
+
+            return new ResponseModel<string>(null, "false", new[] {"Unable to find user for deleting"});
         }
     }
 }
