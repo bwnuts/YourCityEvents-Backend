@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Emit;
 using YourCityEventsApi.Model;
@@ -7,6 +8,7 @@ using YourCityEventsApi.Services;
 
 namespace YourCityEventsApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EventController : ControllerBase
@@ -31,7 +33,12 @@ namespace YourCityEventsApi.Controllers
             return Event;
         }
 
-        [HttpPost]
+        [HttpGet("{id}/visitors")]
+        public ActionResult<List<UserModel>> GetVisitors(string id) =>
+            _eventService.GetVisitors(id);
+        
+
+            [HttpPost]
         public ActionResult<EventModel> Create(EventModel eventModel)
         {
             return _eventService.Create(eventModel);

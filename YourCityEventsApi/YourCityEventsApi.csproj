@@ -6,9 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="DotNetTools" Version="0.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
         <PackageReference Include="MongoDB.Driver" Version="2.9.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc4" />
+        <PackageReference Include="Swashbuckle.Swagger" Version="6.0.0-beta902" />
     </ItemGroup>
 
 </Project>

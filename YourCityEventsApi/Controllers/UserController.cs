@@ -1,44 +1,54 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using YourCityEventsApi.Model;
-using System.Threading.Tasks;
-using Microsoft.IdentityModel.Xml;
+using Microsoft.AspNetCore.Authorization;
 using YourCityEventsApi.Services;
 
 namespace YourCityEventsApi.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly Services.UserService _userService;
+        private readonly UserService _userService;
 
-        public UserController(Services.UserService userService)
+        public UserController(UserService userService)
         {
             _userService = userService;
         }
-
-        [HttpGet]
+        
+        [HttpGet("all")]
         public ActionResult<List<UserModel>> Get() =>
             _userService.Get();
 
-        [HttpGet("{id}")]
-        public ActionResult<UserModel> Get(string id)
+        [HttpGet("{token}")]
+        public ActionResult<UserModel> Get(string token)=>
+            _userService.Get(token);
+
+        [HttpGet("byId/{id}")]
+        public ActionResult<UserModel> GetById(string id)
         {
-            var user = _userService.Get(id);
+            var user = _userService.GetById(id);
             if (user == null)
                 return NotFound();
             return user;
         }
+
+        [HttpGet("{id}/hostingEvents")]
+        public ActionResult<List<EventModel>> GetHostingEvents(string id) =>
+            _userService.GetHostingEvents(id);
+
+        [HttpGet("{id}/visitingEvents")]
+        public ActionResult<List<EventModel>> GetVisitingEvents(string id) =>
+            _userService.GetVisitingEvents(id);
 
         [HttpPost]
         public ActionResult<UserModel> Create(UserModel userModel)
         {
             return _userService.Create(userModel);
         }
-
+        
         [HttpPut("{id}")]
         public IActionResult Update(string id,UserModel userModel)
         {

@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using YourCityEventsApi.Services;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using YourCityEventsApi.Model;
 
 namespace YourCityEventsApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
+    [ApiController]
     public class CityController:ControllerBase
     {
         private readonly CityService _cityService;

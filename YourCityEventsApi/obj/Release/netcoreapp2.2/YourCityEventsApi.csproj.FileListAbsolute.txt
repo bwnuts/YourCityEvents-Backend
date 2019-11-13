@@ -1,0 +1,14 @@
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/bin/Release/netcoreapp2.2/YourCityEventsApi.deps.json
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/bin/Release/netcoreapp2.2/YourCityEventsApi.runtimeconfig.json
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/bin/Release/netcoreapp2.2/YourCityEventsApi.runtimeconfig.dev.json
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/bin/Release/netcoreapp2.2/YourCityEventsApi.dll
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/bin/Release/netcoreapp2.2/YourCityEventsApi.pdb
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Release/netcoreapp2.2/YourCityEventsApi.csprojAssemblyReference.cache
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Release/netcoreapp2.2/YourCityEventsApi.csproj.CoreCompileInputs.cache
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Release/netcoreapp2.2/YourCityEventsApi.RazorAssemblyInfo.cache
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Release/netcoreapp2.2/YourCityEventsApi.RazorAssemblyInfo.cs
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Release/netcoreapp2.2/YourCityEventsApi.AssemblyInfoInputs.cache
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Release/netcoreapp2.2/YourCityEventsApi.AssemblyInfo.cs
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Release/netcoreapp2.2/YourCityEventsApi.RazorTargetAssemblyInfo.cache
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Release/netcoreapp2.2/YourCityEventsApi.dll
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Release/netcoreapp2.2/YourCityEventsApi.pdb

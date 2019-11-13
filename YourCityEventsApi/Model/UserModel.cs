@@ -1,4 +1,7 @@
 using System;
+using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
@@ -10,9 +13,6 @@ namespace YourCityEventsApi.Model
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        
-        [BsonElement("username")]
-        public string UserName { get; set; }
         
         [JsonIgnore]
         [BsonElement("password")]
@@ -41,13 +41,16 @@ namespace YourCityEventsApi.Model
 
         [BsonElement("image_url")]
         public string ImageUrl { get; set; }
+        
+        [BsonElement("token")]
+        public string Token { get; set; }
 
-        public UserModel(string id, string userName, string password, string firstName
-            , string lastName, string bio, string email, CityModel city, string[] hostingEvents=null
-            , string[] visitingEvents=null, string imageUrl=null)
+        public UserModel(string id, string email,string password,string firstName
+            , string lastName, CityModel city,string[] hostingEvents=null
+            , string[] visitingEvents=null, string imageUrl=null,string bio=null
+            ,string token=null)
         {
             Id = id;
-            UserName = userName;
             Password = password;
             FirstName = firstName;
             LastName = lastName;
@@ -57,6 +60,7 @@ namespace YourCityEventsApi.Model
             HostingEvents = hostingEvents;
             VisitingEvents = visitingEvents;
             ImageUrl = imageUrl;
+            Token = token;
         }
         
         

@@ -8,12 +8,14 @@ namespace YourCityEventsApi.Services
     public class EventService
     {
         private IMongoCollection<EventModel> _events;
+        private IMongoCollection<UserModel> _users;
 
         public EventService(IDatabaseSettings settings)
         {
             var client=new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _events = database.GetCollection<EventModel>("Events");
+            _users = database.GetCollection<UserModel>("Users");
         }
 
         public List<EventModel> Get()
@@ -28,6 +30,19 @@ namespace YourCityEventsApi.Services
 
         public EventModel GetByTitle(string title) =>
             _events.Find(Event => Event.Title == title).FirstOrDefault();
+
+        public List<UserModel> GetVisitors(string id)
+        {
+            List<UserModel> userList=new List<UserModel>();
+            var Event=Get(id);
+            foreach (var visitorId in Event.Visitors)
+            {
+                userList.Add(_users.Find(user=>
+                    user.Id==visitorId).FirstOrDefault());
+            }
+
+            return userList;
+        }
 
         public EventModel Create(EventModel eventModel)
         {
