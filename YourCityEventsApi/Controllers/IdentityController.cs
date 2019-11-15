@@ -1,6 +1,8 @@
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using YourCityEventsApi.Model;
 using YourCityEventsApi.Services;
 using YourCityEventsApi.Security;
 
@@ -20,14 +22,12 @@ namespace YourCityEventsApi.Controllers
         }
 
         [HttpPost("/register")]
-        public IActionResult Register(UserRegistrationRequest request)
+        public ActionResult<ResponseModel<string>> Register(UserRegistrationRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new AuthFailedResponse
-                {
-                    Errors = ModelState.Values.SelectMany(x=>x.Errors.Select(xx=>xx.ErrorMessage))
-                });
+                var errors = ModelState.Values.SelectMany(x => x.Errors.Select(xx => xx.ErrorMessage));
+                return new ResponseModel<string>(null,"false",errors);
             }
 
             var authResponse = _identityService.Register(request.Email, request.Password, request.FirstName
@@ -37,20 +37,15 @@ namespace YourCityEventsApi.Controllers
             
             if (!authResponse.Success)
             {
-                return BadRequest(new AuthFailedResponse
-                {
-                  Errors  = authResponse.Errors
-                });
+                return new ResponseModel<string>(null,"false",authResponse.Errors);
+
             }
             
-            return Ok(new AuthSuccessResponse
-            {
-                Token = authResponse.Token
-            });
+            return new ResponseModel<string>(authResponse.Token);
         }
         
         [HttpPost("/login")]
-        public IActionResult Login(UserLoginRequest request)
+        public ActionResult<ResponseModel<string>> Login(UserLoginRequest request)
         {
             var authResponse = _identityService.Login(request.Email, request.Password);
 
@@ -58,16 +53,11 @@ namespace YourCityEventsApi.Controllers
             
             if (!authResponse.Success)
             {
-                return BadRequest(new AuthFailedResponse
-                {
-                    Errors  = authResponse.Errors
-                });
+                return new ResponseModel<string>(null,"false",authResponse.Errors);
+
             }
             
-            return Ok(new AuthSuccessResponse
-            {
-                Token = authResponse.Token
-            });
+            return new ResponseModel<string>(authResponse.Token);
         }
     }
     

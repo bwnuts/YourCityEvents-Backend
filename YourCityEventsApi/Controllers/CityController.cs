@@ -8,7 +8,7 @@ using YourCityEventsApi.Model;
 
 namespace YourCityEventsApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CityController:ControllerBase
