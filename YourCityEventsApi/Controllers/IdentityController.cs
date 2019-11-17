@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,10 @@ namespace YourCityEventsApi.Controllers
 
             }
             
-            return new ResponseModel<string>(authResponse.Token);
+            var data=new Dictionary<string,string>();
+            data.Add("token",authResponse.Token);
+            
+            return new ResponseModel<string>(data);
         }
         
         [HttpPost("/login")]
@@ -57,7 +61,10 @@ namespace YourCityEventsApi.Controllers
 
             }
             
-            return new ResponseModel<string>(authResponse.Token);
+            var data=new Dictionary<string,string>();
+            data.Add("token",authResponse.Token);
+
+            return new ResponseModel<string>(data);
         }
     }
     
