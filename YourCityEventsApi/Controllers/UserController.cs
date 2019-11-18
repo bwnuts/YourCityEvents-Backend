@@ -123,11 +123,11 @@ namespace YourCityEventsApi.Controllers
         }
 
         [HttpPut("change_password")]
-        public ActionResult<ResponseModel<string>> ChangePassword([FromHeader] string Authorization,string password
-            ,string newPassword)
+        public ActionResult<ResponseModel<string>> ChangePassword([FromHeader] string Authorization
+        ,ChangePasswordRequest request)
         {
             string token = Authorization.Split()[1];
-            bool result = _userService.ChangePassword(token, password, newPassword);
+            bool result = _userService.ChangePassword(token, request.Password,request.NewPassword);
 
             if (result)
             {
@@ -139,10 +139,10 @@ namespace YourCityEventsApi.Controllers
         
         [HttpPut("change_email")]
         public ActionResult<ResponseModel<string>> ChangeEmail([FromHeader] string Authorization
-        ,string password,string newEmail)
+        ,ChangeEmailRequest request)
         {
             string token = Authorization.Split()[1];
-            bool result = _userService.ChangeEmail(token, password, newEmail); 
+            bool result = _userService.ChangeEmail(token,request.Password,request.NewEmail); 
             if (result)
             {
                 return new ResponseModel<string>(null, "Ok");

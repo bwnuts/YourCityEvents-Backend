@@ -86,6 +86,7 @@ namespace YourCityEventsApi.Services
             if (user.Password == password)
             {
                 user.Email = newEmail;
+                Update(user.Id,user);
                 return true;
             }
 
@@ -98,6 +99,7 @@ namespace YourCityEventsApi.Services
             if (user.Password == password)
             {
                 user.Password=newPassword;
+                Update(user.Id,user);
                 return true;
             }
 
