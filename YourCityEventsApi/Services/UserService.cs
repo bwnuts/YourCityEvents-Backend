@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
@@ -42,10 +43,7 @@ namespace YourCityEventsApi.Services
         {
             List<EventModel> eventList = new List<EventModel>();
             var user = GetById(id);
-            foreach (var event_id in user.HostingEvents)
-            {
-                eventList.Add(_events.Find(e=>e.Id==event_id).FirstOrDefault());
-            }
+            eventList = user.HostingEvents.ToList();
             return eventList;
         }
         
@@ -53,10 +51,7 @@ namespace YourCityEventsApi.Services
         {
             List<EventModel> eventList = new List<EventModel>();
             var user = GetById(id);
-            foreach (var eventId in user.VisitingEvents)
-            {
-                eventList.Add(_events.Find(e=>e.Id==eventId).FirstOrDefault());
-            }
+            eventList = user.VisitingEvents.ToList();
             return eventList;
         }
         

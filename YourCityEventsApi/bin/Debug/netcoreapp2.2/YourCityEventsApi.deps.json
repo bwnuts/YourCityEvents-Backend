@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "a3eb49f171d26e81f4cfcf055aea5e8dd8799614"
+    "signature": "45bbb21e59a36d87d16c840c2f7e9996ed7751cb"
   },
   "compilationOptions": {
     "defines": [
@@ -27,6 +27,9 @@
           "DotNetTools": "0.0.2",
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
+          "Microsoft.Azure.ConfigurationManager": "4.0.0",
+          "Microsoft.Azure.Storage.Common": "11.1.1",
+          "Microsoft.Azure.Storage.File": "11.1.1",
           "Microsoft.NETCore.App": "2.2.0",
           "MongoDB.Driver": "2.9.2",
           "Swashbuckle.AspNetCore": "5.0.0-rc4",
@@ -62,6 +65,63 @@
         },
         "compile": {
           "lib/net40/DotNetTools.dll": {}
+        }
+      },
+      "Microsoft.Azure.ConfigurationManager/4.0.0": {
+        "runtime": {
+          "lib/net452/Microsoft.Azure.ConfigurationManager.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/net452/Microsoft.Azure.ConfigurationManager.dll": {}
+        }
+      },
+      "Microsoft.Azure.KeyVault.Core/2.0.4": {
+        "dependencies": {
+          "System.Runtime": "4.3.0",
+          "System.Threading.Tasks": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.5/Microsoft.Azure.KeyVault.Core.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.4.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.5/Microsoft.Azure.KeyVault.Core.dll": {}
+        }
+      },
+      "Microsoft.Azure.Storage.Common/11.1.1": {
+        "dependencies": {
+          "Microsoft.Azure.KeyVault.Core": "2.0.4",
+          "NETStandard.Library": "2.0.3",
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Azure.Storage.Common.dll": {
+            "assemblyVersion": "11.1.1.0",
+            "fileVersion": "11.1.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Azure.Storage.Common.dll": {}
+        }
+      },
+      "Microsoft.Azure.Storage.File/11.1.1": {
+        "dependencies": {
+          "Microsoft.Azure.Storage.Common": "11.1.1",
+          "NETStandard.Library": "2.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Azure.Storage.File.dll": {
+            "assemblyVersion": "11.1.1.0",
+            "fileVersion": "11.1.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Azure.Storage.File.dll": {}
         }
       },
       "Microsoft.Extensions.ApiDescription.Server/3.0.0": {},
@@ -3733,6 +3793,34 @@
       "sha512": "sha512-jKNx/tlFFbGi1x284Ozu/RrN6SZh7aT93TJnHvy32qwGA2rpkO3P4b5D9AU0eTkRtdqbx5DLrBSi/xrCSOMpXA==",
       "path": "dotnettools/0.0.2",
       "hashPath": "dotnettools.0.0.2.nupkg.sha512"
+    },
+    "Microsoft.Azure.ConfigurationManager/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uqvJr0b7/C6LwxKBJpl5I+13ihjbFQSx5tcsR6LUEufKCPOzV4buxCJwZEEx4PGniwvwjY5xylx8kABjp/EsRw==",
+      "path": "microsoft.azure.configurationmanager/4.0.0",
+      "hashPath": "microsoft.azure.configurationmanager.4.0.0.nupkg.sha512"
+    },
+    "Microsoft.Azure.KeyVault.Core/2.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BSdPbmZ1BvptdfgECniezEwfQLAyT11MsOm4btXdswjIm8BkLK9eX//yO8ExlafErJg1tAKpCxfNyLTHSlXJvA==",
+      "path": "microsoft.azure.keyvault.core/2.0.4",
+      "hashPath": "microsoft.azure.keyvault.core.2.0.4.nupkg.sha512"
+    },
+    "Microsoft.Azure.Storage.Common/11.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qIveCnEP+upXcK7uJL0z2xhErN6vkmYlxLPG5tdODWqOCXVXRNit/esAYP+6PJkArVLQPJpvQ1v3f+tGFWTfuA==",
+      "path": "microsoft.azure.storage.common/11.1.1",
+      "hashPath": "microsoft.azure.storage.common.11.1.1.nupkg.sha512"
+    },
+    "Microsoft.Azure.Storage.File/11.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-G6tMArJNxIqhi2sLmC70YoOG/hXMoJmzC1qWplng1/nrcR5NhmCLp6JVqg2rrcrlJpnm0ZIpM4ALALDkp5/Gdg==",
+      "path": "microsoft.azure.storage.file/11.1.1",
+      "hashPath": "microsoft.azure.storage.file.11.1.1.nupkg.sha512"
     },
     "Microsoft.Extensions.ApiDescription.Server/3.0.0": {
       "type": "package",

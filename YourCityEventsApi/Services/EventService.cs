@@ -2,6 +2,7 @@ using System;
 using MongoDB.Driver;
 using YourCityEventsApi.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace YourCityEventsApi.Services
 {
@@ -34,13 +35,7 @@ namespace YourCityEventsApi.Services
         public List<UserModel> GetVisitors(string id)
         {
             List<UserModel> userList=new List<UserModel>();
-            var Event=Get(id);
-            foreach (var visitorId in Event.Visitors)
-            {
-                userList.Add(_users.Find(user=>
-                    user.Id==visitorId).FirstOrDefault());
-            }
-
+            userList = Get(id).Visitors.ToList();
             return userList;
         }
 
