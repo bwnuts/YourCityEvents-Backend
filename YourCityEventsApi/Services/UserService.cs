@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using YourCityEventsApi.Model;
 
@@ -68,11 +69,50 @@ namespace YourCityEventsApi.Services
             return GetByEmail(userModel.Email);
         }
 
-        public void Update(string id, UserModel userModel) =>
+        public void Update(string id, UserModel userModel)
+        {
+            var events = _events.Find(e => true).ToList().ToArray();
+
+            for (int i = 0; i < events.Length; i++)
+            {
+                if (events[i].Owner.Id == id)
+                {
+                    events[i].Owner = userModel;
+                }
+
+                if (events[i].Visitors != null)
+                {
+                    for (int j = 0; j < events[i].Visitors.Length; j++)
+                    {
+                        if (events[i].Visitors[j].Id == id)
+                        {
+                            events[i].Visitors[j] = userModel;
+                        }
+                    }
+                }
+                
+                _events.ReplaceOne(e => e.Id == events[i].Id, events[i]);
+            }
+
             _users.ReplaceOne(user => user.Id == id, userModel);
-        
-        public void Delete(string id) =>
+        }
+
+        public void Delete(string id)
+        {
+            var events = _events.Find(e => true).ToList();
+            foreach (var e in events)
+            {
+                if (e.Owner.Id == id)
+                {
+                    _events.DeleteOne(ev => ev.Id == e.Id);
+                    break;
+                }
+
+                e.Visitors = e.Visitors.Where(visitor => visitor.Id != id).ToArray();
+                _events.ReplaceOne(ev => ev.Id == e.Id, e);
+            }
             _users.DeleteOne(user => user.Id == id);
+        }
 
         public bool ChangeEmail(string token,string password, string newEmail)
         {
