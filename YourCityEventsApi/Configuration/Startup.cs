@@ -77,7 +77,7 @@ namespace YourCityEventsApi
             services.AddSingleton<EventService>();
             services.AddSingleton<CityService>();
             services.AddScoped<IdentityService>();
-            services.AddDirectoryBrowser();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,7 +102,7 @@ namespace YourCityEventsApi
                 option.SwaggerEndpoint(swaggerOptions.UiEndpoint, swaggerOptions.Description);
             });
 
-            app.UseStaticFiles();
+            /*app.UseStaticFiles();
             
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -116,7 +116,7 @@ namespace YourCityEventsApi
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")),
                 RequestPath = "/images"
-            });
+            });*/
             
             app.UseAuthentication();
             app.UseHttpsRedirection();
