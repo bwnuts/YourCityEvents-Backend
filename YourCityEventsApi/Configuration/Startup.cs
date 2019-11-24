@@ -104,7 +104,7 @@ namespace YourCityEventsApi
 
             app.UseStaticFiles();
             
-            /*app.UseStaticFiles(new StaticFileOptions
+            app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")),
@@ -116,7 +116,7 @@ namespace YourCityEventsApi
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")),
                 RequestPath = "/images"
-            });*/
+            });
             
             app.UseAuthentication();
             app.UseHttpsRedirection();
