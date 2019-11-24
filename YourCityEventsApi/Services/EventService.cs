@@ -25,8 +25,11 @@ namespace YourCityEventsApi.Services
         {
             return _events.Find(Event => true).ToList();
         }
-            
 
+        public List<EventModel> GetByCity(CityModel cityModel)
+        {
+            return _events.Find(e => e.Location == cityModel).ToList();
+        }
 
         public EventModel Get(string id) =>
             _events.Find(Event => Event.Id == id).FirstOrDefault();
