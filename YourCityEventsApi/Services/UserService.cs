@@ -107,9 +107,10 @@ namespace YourCityEventsApi.Services
             var userId = Get(token).Id;
             var memoryStream = new MemoryStream(imageModel.Array);
             var image = Image.FromStream(memoryStream);
-            var path = _hostingEnvironment.WebRootPath + "/images/"+userId+".jpg";
-            image.Save(path);
-            return path;
+            var wwwrootPath = _hostingEnvironment.WebRootPath;
+            var directoryPath ="/images/"+userId+".jpg";
+            image.Save(wwwrootPath+directoryPath);
+            return "yourcityevents.azurewebsites.net"+directoryPath;
         }
 
         public void Delete(string id)
