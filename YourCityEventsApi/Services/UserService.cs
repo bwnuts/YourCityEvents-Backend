@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using YourCityEventsApi.Model;
-
+using System.Drawing;
+using Microsoft.AspNetCore.Hosting;
 
 namespace YourCityEventsApi.Services
 {
@@ -14,13 +17,15 @@ namespace YourCityEventsApi.Services
     {
         private IMongoCollection<UserModel> _users;
         private IMongoCollection<EventModel> _events;
+        private readonly IHostingEnvironment _hostingEnvironment;
         
-        public UserService(IDatabaseSettings settings)
+        public UserService(IDatabaseSettings settings,IHostingEnvironment hostingEnvironment)
         {
             var client=new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _users = database.GetCollection<UserModel>("Users");
             _events = database.GetCollection<EventModel>("Events");
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public List<UserModel> Get()
@@ -95,6 +100,16 @@ namespace YourCityEventsApi.Services
             }
 
             _users.ReplaceOne(user => user.Id == id, userModel);
+        }
+
+        public string UploadImage(string token, UploadImageModel imageModel)
+        {
+            var userId = Get(token).Id;
+            var memoryStream = new MemoryStream(imageModel.Array);
+            var image = Image.FromStream(memoryStream);
+            var path = _hostingEnvironment.WebRootPath + "/images/"+userId+".jpg";
+            image.Save(path);
+            return path;
         }
 
         public void Delete(string id)

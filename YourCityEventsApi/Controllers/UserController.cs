@@ -150,6 +150,23 @@ namespace YourCityEventsApi.Controllers
 
             return new ResponseModel<string>(null,false,new []{"Wrong password"});
         }
+
+        [HttpPut("upload_image")]
+        public ActionResult<ResponseModel<string>> UploadImage([FromHeader] string Authorization
+        ,UploadImageModel imageModel)
+        {
+            string token = Authorization.Split()[1];
+            string path = _userService.UploadImage(token, imageModel);
+            var data=new Dictionary<string,string>();
+            data.Add("path",path);
+            
+            if (path != null)
+            {
+                return new ResponseModel<string>(data);
+            }
+
+            return new ResponseModel<string>(null, false, new[] {"Unable to upload image"});
+        }
         
         [HttpDelete("{id}")]
         public ActionResult<ResponseModel<string>> Delete(string id)
