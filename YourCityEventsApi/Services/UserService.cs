@@ -104,13 +104,16 @@ namespace YourCityEventsApi.Services
 
         public string UploadImage(string token, UploadImageModel imageModel)
         {
-            var userId = Get(token).Id;
+            var user = Get(token);
             var memoryStream = new MemoryStream(imageModel.Array);
             var image = Image.FromStream(memoryStream);
             var wwwrootPath = _hostingEnvironment.WebRootPath;
-            var directoryPath ="/images/"+userId+".jpg";
+            var directoryPath ="/images/"+user.Id+".jpg";
             image.Save(wwwrootPath+directoryPath);
-            return "yourcityevents.azurewebsites.net"+directoryPath;
+            var finalPath="yourcityevents.azurewebsites.net"+directoryPath;
+            user.ImageUrl = finalPath;
+            _users.ReplaceOne(u => u.Id == user.Id, user);
+            return finalPath;
         }
 
         public void Delete(string id)
