@@ -26,33 +26,29 @@ namespace YourCityEventsApi.Controllers
         [HttpGet("all")]
         public ActionResult<ResponseModel<List<EventModel>>> GetAll()
         {
-            var eventList = _eventService.Get();
-            var data = new Dictionary<string, List<EventModel>>();
-            data.Add("events", eventList);
-
-            if (eventList != null)
-            {
-                return new ResponseModel<List<EventModel>>(data);
-            }
+            var eventList = _eventService.GetAll();
             
-            return new ResponseModel<List<EventModel>>(null,false,new[] {"Unable to get events"});
+            return ResponseModel<List<EventModel>>.FormResponse("events", eventList
+                ,  "Unable to get events");
         }
 
+        [HttpGet("for_all_cities")]
+        public ActionResult<ResponseModel<List<EventModel>>> GetAllByCurrentDate()
+        {
+            var eventList = _eventService.GetAllByCurrentDate();
+            
+            return ResponseModel<List<EventModel>>.FormResponse("events", eventList
+                , "Unable to get events");
+        }
+        
         [HttpGet]
-        public ActionResult<ResponseModel<List<EventModel>>> GetByToken([FromHeader] string Authorization)
+        public ActionResult<ResponseModel<List<EventModel>>> GetByCity([FromHeader] string Authorization)
         {
             string token = Authorization.Split()[1];
             var city = _userService.Get(token).City;
             var eventList = _eventService.GetByCity(city);
-            var data = new Dictionary<string,List<EventModel>>();
-            data.Add("events",eventList);
-            
-            if (eventList != null)
-            {
-                return new ResponseModel<List<EventModel>>(data);
-            }
 
-            return new ResponseModel<List<EventModel>>(null, false, new[] {"Unable to get events"});
+            return ResponseModel<List<EventModel>>.FormResponse("events", eventList, "Unable to get events");
         }
 
         [HttpGet("byCity")]
@@ -60,74 +56,39 @@ namespace YourCityEventsApi.Controllers
         {
             var eventList = _eventService.GetByCity(cityModel);
             
-            var data = new Dictionary<string,List<EventModel>>();
-            data.Add("events",eventList);
-            
-            if (eventList != null)
-            {
-                return new ResponseModel<List<EventModel>>(data);
-            }
-
-            return new ResponseModel<List<EventModel>>(null, false, new[] {"Unable to get events"});
+            return ResponseModel<List<EventModel>>.FormResponse("events", eventList, "Unable to get events");
         }
 
         [HttpGet("{id}")]
         public ActionResult<ResponseModel<EventModel>> Get(string id)
         {
             var Event = _eventService.Get(id);
-            var data = new Dictionary<string, EventModel>();
-            data.Add("event", Event);
-
-            if (Event != null)
-            {
-                return new ResponseModel<EventModel>(data);
-            }
-
-            return new ResponseModel<EventModel>(null, false, new[] {"Event not found"});
+            
+            return ResponseModel<EventModel>.FormResponse("event", Event, "Event not found");
         }
 
         [HttpGet("{id}/visitors")]
         public ActionResult<ResponseModel<List<UserModel>>> GetVisitors(string id)
         {
             var userList = _eventService.GetVisitors(id);
-            var data = new Dictionary<string, List<UserModel>>();
-            data.Add("users", userList);
-            if (userList != null)
-            {
-                return new ResponseModel<List<UserModel>>(data);
-            }
 
-            return new ResponseModel<List<UserModel>>(null, false, new[] {"Unable to get users"});
+            return ResponseModel<List<UserModel>>.FormResponse("users", userList, "Unable to get users");
         }
 
         [HttpPost]
         public ActionResult<ResponseModel<EventModel>> Create(EventModel eventModel)
         {
             var Event = _eventService.Create(eventModel);
-            var data=new Dictionary<string,EventModel>();
-            data.Add("event",Event);
-            if (Event != null)
-            {
-                return new ResponseModel<EventModel>(data);
-            }
-            
-            return new ResponseModel<EventModel>(null, false, new[] {"Unable to create event"});
 
+            return ResponseModel<EventModel>.FormResponse("event", Event, "Unable to create event");
         }
 
         [HttpPut("{id}")]
         public ActionResult<ResponseModel<EventModel>> Update(string id, EventModel eventModel)
         {
             var Event = _eventService.Get(id);
-            var data=new Dictionary<string,EventModel>();
-            data.Add("event",eventModel);
-            if (Event != null)
-            {
-                _eventService.Update(id,eventModel);
-                return new ResponseModel<EventModel> (data);
-            }
-            
-            return new ResponseModel<EventModel>(null, false, new[] {"Unable to find event for updating"});
+
+            return ResponseModel<EventModel>.FormResponse("event", Event, "Unable to find event for updating");
         }
 
         [HttpDelete("{id}")]
