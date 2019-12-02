@@ -76,7 +76,7 @@ namespace YourCityEventsApi.Controllers
             return new ResponseModel<string>(null);
         }
 
-        [HttpPut("change_password")]
+        [HttpPut("changePassword")]
         public ActionResult<ResponseModel<string>> ChangePassword([FromHeader] string Authorization
         ,ChangePasswordRequest request)
         {
@@ -91,7 +91,7 @@ namespace YourCityEventsApi.Controllers
             return new ResponseModel<string>(null,false,new []{"Wrong password"});
         }
         
-        [HttpPut("change_email")]
+        [HttpPut("changeEmail")]
         public ActionResult<ResponseModel<string>> ChangeEmail([FromHeader] string Authorization
         ,ChangeEmailRequest request)
         {
@@ -105,7 +105,7 @@ namespace YourCityEventsApi.Controllers
             return new ResponseModel<string>(null,false,new []{"Wrong password"});
         }
 
-        [HttpPut("upload_image")]
+        [HttpPut("uploadImage")]
         public ActionResult<ResponseModel<string>> UploadImage([FromHeader] string Authorization
         ,UploadImageModel imageModel)
         {

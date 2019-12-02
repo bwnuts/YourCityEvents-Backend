@@ -30,7 +30,7 @@ namespace YourCityEventsApi.Controllers
                 ,  "Unable to get events");
         }
 
-        [HttpGet("for_all_cities")]
+        [HttpGet("forAllCities")]
         public ActionResult<ResponseModel<List<EventModel>>> GetAllByCurrentDate()
         {
             var eventList = _eventService.GetAllByCurrentDate();
