@@ -69,11 +69,11 @@ namespace YourCityEventsApi.Controllers
         }
         
         [HttpPut("{id}")]
-        public ActionResult<ResponseModel<UserModel>> Update(string id,UserModel userModel)
+        public ActionResult<ResponseModel<string>> Update(string id,UserModel userModel)
         {
-            var user = _userService.GetById(id);
+            _userService.Update(id,userModel);
 
-            return ResponseModel<UserModel>.FormResponse("user",user,"Unable to find user for updating");
+            return new ResponseModel<string>(null);
         }
 
         [HttpPut("change_password")]
