@@ -31,10 +31,6 @@ namespace YourCityEventsApi.ScheduleTask
             _cities = database.GetCollection<CityModel>("Cities");
             
             var redis = RedisSettings.GetConnectionMultiplexer();
-            /*var server = redis.GetServer("YourCityEvents.redis.cache.windows.net:6380");
-            server.FlushDatabase(0);
-            server.FlushDatabase(1);
-            server.FlushDatabase(2);*/
             _redisUsersDatabase = redis.GetDatabase(0);
             _redisEventsDatabase = redis.GetDatabase(1);
             _redisCitiesDatabase = redis.GetDatabase(2);
@@ -64,7 +60,7 @@ namespace YourCityEventsApi.ScheduleTask
                 {
                     _redisCitiesDatabase.StringSet(city.Id, JsonConvert.SerializeObject(city), ttl);
                 }
-                await Task.Delay(10 * 1000, cancellationToken);
+                await Task.Delay(2*60*60* 1000, cancellationToken);
             }
         }
     }

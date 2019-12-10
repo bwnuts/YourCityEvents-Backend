@@ -30,10 +30,6 @@ namespace YourCityEventsApi.ScheduleTask
             _cities = database.GetCollection<CityModel>("Cities");
             
             var redis = RedisSettings.GetConnectionMultiplexer();
-            /*var server = redis.GetServer("YourCityEvents.redis.cache.windows.net:6380");
-            server.FlushDatabase(0);
-            server.FlushDatabase(1);
-            server.FlushDatabase(2);*/
             _redisUsersDatabase = redis.GetDatabase(0);
             _redisEventsDatabase = redis.GetDatabase(1);
             _redisCitiesDatabase = redis.GetDatabase(2);

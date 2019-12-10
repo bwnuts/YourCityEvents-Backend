@@ -61,28 +61,6 @@ namespace YourCityEventsApi.Services
             }
 
             return null;
-            /*ConfigurationOptions options = new ConfigurationOptions
-            {
-                EndPoints = { {"localhost",6379}},
-                AllowAdmin = true
-            };
-            ConnectionMultiplexer redis =ConnectionMultiplexer.Connect(options);
-            IDatabase db = redis.GetDatabase(1);
-            var server = redis.GetServer(db.Multiplexer.GetEndPoints().First());
-            var keys = server.Keys();
-            var ttl =new TimeSpan(0,0,2,0);
-            var key = "5dcd61fc1714152a148b6542";
-            var city =new CityModel(key,"Biba","Boba");
-            Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            db.StringSet(key, JsonConvert.SerializeObject(city), ttl);
-            Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            foreach (var k in keys)
-            {
-                var tmp = db.StringGet(k);
-                return JsonConvert.DeserializeObject<CityModel>(tmp);
-            }
-
-            return new CityModel("5dcd61fc1714152a148b6542","hui","hui");*/
         }
 
         public CityModel GetByNameUa(string cityNameUa)
