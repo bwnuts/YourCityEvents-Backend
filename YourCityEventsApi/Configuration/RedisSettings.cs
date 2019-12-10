@@ -31,12 +31,6 @@ namespace YourCityEventsApi.Model
             Lazy<ConnectionMultiplexer> lazyConnection=new Lazy<ConnectionMultiplexer>(
                 ()=> {return ConnectionMultiplexer
                     .Connect("YourCityEvents.redis.cache.windows.net:6380,password=ktK1x6VPHTXr1pb5LwlN+8SaKLWGyCFXTA3mDHL6XPw=,ssl=True,abortConnect=False");});
-            /*ConfigurationOptions options = new ConfigurationOptions()
-            {    
-                EndPoints = {{redisSettings.Host,redisSettings.Port}},
-                Password = redisSettings.Password
-            };
-            return ConnectionMultiplexer.Connect(options);*/
             return lazyConnection.Value;
         }
     }
