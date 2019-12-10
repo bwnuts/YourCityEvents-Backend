@@ -19,7 +19,7 @@ namespace YourCityEventsApi.Controllers
             _cityService = cityService;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public ActionResult<ResponseModel<List<CityModel>>> GetAll()
         {
             var cityList = _cityService.GetAll();

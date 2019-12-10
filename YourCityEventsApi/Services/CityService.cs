@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using StackExchange.Redis;
 using YourCityEventsApi.Model;
 
@@ -18,10 +19,9 @@ namespace YourCityEventsApi.Services
         private IDatabase _redisEventsDatabase;
         private IServer _server;
         private readonly IEnumerable<RedisKey> _keys;
-        private readonly TimeSpan ttl = new TimeSpan(0, 1, 59, 0);
+        private readonly TimeSpan ttl = new TimeSpan(0,0 , 0, 9);
 
-        public CityService(IMongoSettings settings,IRedisSettings redisSettings
-        )
+        public CityService(IMongoSettings settings)
         {
             var client=new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -29,12 +29,12 @@ namespace YourCityEventsApi.Services
             _users = database.GetCollection<UserModel>("Users");
             _events = database.GetCollection<EventModel>("Events");
 
-            var redis = RedisSettings.GetConnectionMultiplexer(redisSettings);
+            var redis = RedisSettings.GetConnectionMultiplexer();
             _redisUsersDatabase = redis.GetDatabase(0);
             _redisEventsDatabase = redis.GetDatabase(1);
             _redisCitiesDatabase = redis.GetDatabase(2);
             _server = redis.GetServer(_redisCitiesDatabase.Multiplexer.GetEndPoints().First());
-            _keys = _server.Keys();
+            _keys = _server.Keys(2);
         }
 
         public List<CityModel> GetAll()
@@ -42,6 +42,7 @@ namespace YourCityEventsApi.Services
             var allCities = new List<CityModel>();
             foreach (var key in _keys)
             {
+                Console.WriteLine(key);
                 allCities.Add(JsonConvert.DeserializeObject<CityModel>(_redisCitiesDatabase.StringGet(key)));
             }
 
@@ -60,6 +61,28 @@ namespace YourCityEventsApi.Services
             }
 
             return null;
+            /*ConfigurationOptions options = new ConfigurationOptions
+            {
+                EndPoints = { {"localhost",6379}},
+                AllowAdmin = true
+            };
+            ConnectionMultiplexer redis =ConnectionMultiplexer.Connect(options);
+            IDatabase db = redis.GetDatabase(1);
+            var server = redis.GetServer(db.Multiplexer.GetEndPoints().First());
+            var keys = server.Keys();
+            var ttl =new TimeSpan(0,0,2,0);
+            var key = "5dcd61fc1714152a148b6542";
+            var city =new CityModel(key,"Biba","Boba");
+            Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            db.StringSet(key, JsonConvert.SerializeObject(city), ttl);
+            Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            foreach (var k in keys)
+            {
+                var tmp = db.StringGet(k);
+                return JsonConvert.DeserializeObject<CityModel>(tmp);
+            }
+
+            return new CityModel("5dcd61fc1714152a148b6542","hui","hui");*/
         }
 
         public CityModel GetByNameUa(string cityNameUa)

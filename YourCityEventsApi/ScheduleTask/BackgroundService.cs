@@ -1,10 +1,11 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 
 namespace YourCityEventsApi.ScheduleTask
 {
-    public abstract class BackgroundService: IHostedService
+    public abstract class BackgroundService: IHostedService,IDisposable
     {
         private Task _executingTask;
         private readonly CancellationTokenSource _stoppingCts = 
@@ -30,16 +31,20 @@ namespace YourCityEventsApi.ScheduleTask
             {
                 return;
             }
-
             try
             {
                 _stoppingCts.Cancel();
             }
-           finally
+            finally
             {
                 await Task.WhenAny(_executingTask, Task.Delay(
                     Timeout.Infinite, cancellationToken));
             }
+        }
+
+        public void Dispose()
+        {
+            _stoppingCts.Cancel();
         }
     }
 }

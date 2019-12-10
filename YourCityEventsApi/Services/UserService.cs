@@ -24,8 +24,7 @@ namespace YourCityEventsApi.Services
         private readonly TimeSpan ttl = new TimeSpan(0, 1, 59, 0);
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UserService(IMongoSettings mongoSettings,IHostingEnvironment hostingEnvironment
-        ,IRedisSettings redisSettings)
+        public UserService(IMongoSettings mongoSettings,IHostingEnvironment hostingEnvironment)
         {
             var client=new MongoClient(mongoSettings.ConnectionString);
             var database = client.GetDatabase(mongoSettings.DatabaseName);
@@ -33,7 +32,7 @@ namespace YourCityEventsApi.Services
 
             _events = database.GetCollection<EventModel>("Events");
             
-            var redis = RedisSettings.GetConnectionMultiplexer(redisSettings);
+            var redis = RedisSettings.GetConnectionMultiplexer();
             _redisUsersDatabase = redis.GetDatabase(0);
             _redisEventsDatabase = redis.GetDatabase(1);
             _server = redis.GetServer(_redisUsersDatabase.Multiplexer.GetEndPoints().First());
@@ -111,7 +110,7 @@ namespace YourCityEventsApi.Services
         {
             var user = GetByEmail(email);
             user.Token = token;
-            Update(user.Id,user);
+            _users.ReplaceOne(u => u.Email == email, user);
         }
         
         public UserModel Create(UserModel userModel)

@@ -26,11 +26,11 @@ namespace YourCityEventsApi.Model
             return redis.GetDatabase(databaseIndex);
         }
 
-        public static ConnectionMultiplexer GetConnectionMultiplexer(IRedisSettings redisSettings)
+        public static ConnectionMultiplexer GetConnectionMultiplexer()
         {
             Lazy<ConnectionMultiplexer> lazyConnection=new Lazy<ConnectionMultiplexer>(
                 ()=> {return ConnectionMultiplexer
-                    .Connect("YourCityEvents.redis.cache.windows.net:6379,password=hXW8Xr7Q3cUH0+c7sEBDRs4m7Bf9gIsJVYh21I5YETg=,ssl=True,abortConnect=False");});
+                    .Connect("YourCityEvents.redis.cache.windows.net:6380,password=ktK1x6VPHTXr1pb5LwlN+8SaKLWGyCFXTA3mDHL6XPw=,ssl=True,abortConnect=False");});
             /*ConfigurationOptions options = new ConfigurationOptions()
             {    
                 EndPoints = {{redisSettings.Host,redisSettings.Port}},

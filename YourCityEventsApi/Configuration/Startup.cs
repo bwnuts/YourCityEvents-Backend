@@ -89,9 +89,9 @@ namespace YourCityEventsApi
             services.AddScoped<IdentityService>();
 
             services.AddDistributedMemoryCache();
-
-            services.AddSingleton<IHostedService, SyncDataService>();
-            //services.AddHostedService<SyncDataService>();
+            
+            services.AddHostedService<ScheduleTaskService>();
+            services.AddScoped<IScopedService, ScopedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

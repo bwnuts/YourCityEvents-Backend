@@ -1,17 +1,19 @@
 using System;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using YourCityEventsApi.Model;
 
-
 namespace YourCityEventsApi.ScheduleTask
 {
-    public class SyncDataService:BackgroundService
+    public interface IScopedService
+    {
+        Task SyncData(CancellationToken cancellationToken);
+    }
+
+    public class ScopedService:IScopedService
     {
         private readonly IMongoCollection<UserModel> _users;
         private readonly IMongoCollection<EventModel> _events;
@@ -19,9 +21,8 @@ namespace YourCityEventsApi.ScheduleTask
         private IDatabase _redisUsersDatabase;
         private IDatabase _redisEventsDatabase;
         private IDatabase _redisCitiesDatabase;
-        private Timer _timer;
-
-        public SyncDataService(IMongoSettings mongoSettings)
+        
+        public ScopedService(IMongoSettings mongoSettings)
         {
             var client=new MongoClient(mongoSettings.ConnectionString);
             var database = client.GetDatabase(mongoSettings.DatabaseName);
@@ -39,37 +40,31 @@ namespace YourCityEventsApi.ScheduleTask
             _redisCitiesDatabase = redis.GetDatabase(2);
         }
         
-        private void ScheduleTask()
-        {
-            TimeSpan ttl = new TimeSpan(0,1,59,0);
-
-            var allUsers = _users.Find(u => true).ToList();
-            var allEvents = _events.Find(e => true).ToList();
-            var allCities = _cities.Find(c => true).ToList();
-
-            foreach (var user in allUsers)
-            {
-                _redisUsersDatabase.StringSet(user.Id, JsonConvert.SerializeObject(user), ttl);
-            }
-
-            foreach (var Event in allEvents)
-            {
-                _redisEventsDatabase.StringSet(Event.Id, JsonConvert.SerializeObject(Event), ttl);
-            }
-
-            foreach (var city in allCities)
-            {
-                _redisCitiesDatabase.StringSet(city.Id, JsonConvert.SerializeObject(city), ttl);
-            }
-        }
-
-        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+        public async Task SyncData(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                ScheduleTask();
+                TimeSpan ttl = new TimeSpan(0,1,59,0);
+                
+                var allUsers = _users.Find(u => true).ToList();
+                var allEvents = _events.Find(e => true).ToList();
+                var allCities = _cities.Find(c => true).ToList();
 
-                await Task.Delay(new TimeSpan(0, 0, 0, 1), cancellationToken);
+                foreach (var user in allUsers)
+                {
+                    _redisUsersDatabase.StringSet(user.Id, JsonConvert.SerializeObject(user), ttl);
+                }
+
+                foreach (var Event in allEvents)
+                {
+                    _redisEventsDatabase.StringSet(Event.Id, JsonConvert.SerializeObject(Event), ttl);
+                }
+
+                foreach (var city in allCities)
+                {
+                    _redisCitiesDatabase.StringSet(city.Id, JsonConvert.SerializeObject(city), ttl);
+                }
+                await Task.Delay(10 * 1000, cancellationToken);
             }
         }
     }

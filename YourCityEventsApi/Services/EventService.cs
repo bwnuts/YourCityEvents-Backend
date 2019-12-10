@@ -24,8 +24,7 @@ namespace YourCityEventsApi.Services
         private readonly TimeSpan ttl = new TimeSpan(0, 1, 59, 0);
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public EventService(IMongoSettings settings, IHostingEnvironment hostingEnvironment
-            ,IRedisSettings redisSettings)
+        public EventService(IMongoSettings settings, IHostingEnvironment hostingEnvironment)
         {
             var client=new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -34,11 +33,11 @@ namespace YourCityEventsApi.Services
 
             _users = database.GetCollection<UserModel>("Users");
             
-            var redis = RedisSettings.GetConnectionMultiplexer(redisSettings);
+            var redis = RedisSettings.GetConnectionMultiplexer();
             _redisUsersDatabase = redis.GetDatabase(0);
             _redisEventsDatabase = redis.GetDatabase(1);
             _server = redis.GetServer(_redisEventsDatabase.Multiplexer.GetEndPoints().First());
-            _keys = _server.Keys();
+            _keys = _server.Keys(1);
         }
 
         public List<EventModel> GetAll()
