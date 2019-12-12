@@ -6,8 +6,6 @@ using MongoDB.Driver;
 using YourCityEventsApi.Model;
 using System.Drawing;
 using Microsoft.AspNetCore.Hosting;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 

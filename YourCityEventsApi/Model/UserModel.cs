@@ -1,10 +1,4 @@
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Rewrite.Internal.PatternSegments;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.ExpressionTranslators.Internal;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
