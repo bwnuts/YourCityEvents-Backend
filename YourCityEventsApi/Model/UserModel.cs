@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -11,7 +12,6 @@ namespace YourCityEventsApi.Model
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         
-        [JsonIgnore]
         [BsonElement("password")]
         public string Password { get; set; }
         
@@ -40,7 +40,6 @@ namespace YourCityEventsApi.Model
         [BsonElement("image_url")]
         public string ImageUrl { get; set; }
         
-        [JsonIgnore]
         [BsonElement("token")]
         public string Token { get; set; }
 
@@ -54,7 +53,7 @@ namespace YourCityEventsApi.Model
             FirstName = firstName;
             LastName = lastName;
             Bio = bio;
-            Email = email.ToLower();
+            Email = email;
             City = city;
             HostingEvents = hostingEvents;
             VisitingEvents = visitingEvents;
