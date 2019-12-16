@@ -46,7 +46,7 @@ namespace YourCityEventsApi.Model
             DetailLocation = detailLocation;
             Description = description;
             Owner = owner;
-            Date = DateTime.ParseExact(date,"yyyy-MM-dd HH:mm",null);
+            Date = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm", null);
             ImageUrl = imageUrl;
             Visitors = visitors;
             Price = price;

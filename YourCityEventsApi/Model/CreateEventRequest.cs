@@ -1,3 +1,4 @@
+using System;
 using System.Net.Mime;
 
 namespace YourCityEventsApi.Model
@@ -10,7 +11,7 @@ namespace YourCityEventsApi.Model
         public int Price { get; set; }
         public CityModel Location { get; set; }
         public string DetailLocation { get; set; }
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
 
         public CreateEventRequest(string title, string description, string imageArray
             , int price,CityModel location, string detailLocation, string date)
@@ -21,7 +22,7 @@ namespace YourCityEventsApi.Model
             Price = price;
             Location = location;
             DetailLocation = detailLocation;
-            Date = date;
+            Date = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm", null);
         }
     }
 }

@@ -40,8 +40,8 @@ namespace YourCityEventsApi.ScheduleTask
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                TimeSpan ttl = new TimeSpan(0,1,59,59);
-                
+                TimeSpan ttl = new TimeSpan(0, 1, 59, 59);
+
                 var allUsers = _users.Find(u => true).ToList();
                 var allEvents = _events.Find(e => true).ToList();
                 var allCities = _cities.Find(c => true).ToList();
@@ -60,7 +60,8 @@ namespace YourCityEventsApi.ScheduleTask
                 {
                     _redisCitiesDatabase.StringSet(city.Id, JsonConvert.SerializeObject(city), ttl);
                 }
-                await Task.Delay(2*60*60* 1000, cancellationToken);
+
+                await Task.Delay(2 * 60 * 60 * 1000, cancellationToken);
             }
         }
     }

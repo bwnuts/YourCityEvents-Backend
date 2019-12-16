@@ -145,7 +145,7 @@ namespace YourCityEventsApi.Services
         {
             var owner = _users.Find(u => u.Token == ownerToken).FirstOrDefault();
             var createdEvent=new EventModel(null,eventModel.Title,eventModel.Location,eventModel.DetailLocation
-            ,eventModel.Description,owner,eventModel.Date,eventModel.Price);
+            ,eventModel.Description,owner,eventModel.Date.ToString(),eventModel.Price);
             _events.InsertOne(createdEvent);
             createdEvent = GetByTitle(eventModel.Title);
             var imageUrl = UploadImage(createdEvent.Id, eventModel.ImageArray);
