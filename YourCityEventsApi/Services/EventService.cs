@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using Microsoft.AspNetCore.Hosting;
+using MongoDB.Bson;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
@@ -131,27 +132,30 @@ namespace YourCityEventsApi.Services
 
         private string UploadImage(string eventId,string array)
         {
-            var Event = Get(eventId);
             var wwwrootPath = _hostingEnvironment.WebRootPath;
             var directoryPath = "/events/" + eventId + ".jpg";
             var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(array));
             var image = Image.FromStream(memoryStream);
+            File.Delete(wwwrootPath+directoryPath);
             image.Save(wwwrootPath+directoryPath);
             return "https://yourcityevents.azurewebsites.net" + directoryPath;
         }
 
-        public EventModel Create(EventModel eventModel)
+        public EventModel Create(CreateEventRequest eventModel,string ownerToken)
         {
-            _events.InsertOne(eventModel);
-            var createdEvent = GetByTitle(eventModel.Title);
-            var imageUrl=UploadImage(createdEvent.ImageUrl,createdEvent.Id);
+            var owner = _users.Find(u => u.Token == ownerToken).FirstOrDefault();
+            var createdEvent=new EventModel(null,eventModel.Title,eventModel.Location,eventModel.DetailLocation
+            ,eventModel.Description,owner,eventModel.Date,eventModel.Price);
+            _events.InsertOne(createdEvent);
+            createdEvent = GetByTitle(eventModel.Title);
+            var imageUrl = UploadImage(createdEvent.Id, eventModel.ImageArray);
             createdEvent.ImageUrl = imageUrl;
             _events.ReplaceOne(e => e.Id == createdEvent.Id, createdEvent);
             _redisEventsDatabase.StringSet(createdEvent.Id, JsonConvert.SerializeObject(createdEvent), ttl);
             return createdEvent;
         }
 
-        public void Update(string id, EventModel eventModel)
+        /*public void Update(string id,EventModel eventModel)
         {
             var users = _users.Find(u => true).ToList();
             foreach (var user in users)
@@ -163,6 +167,9 @@ namespace YourCityEventsApi.Services
                         if (user.HostingEvents[i].Id == id)
                         {
                             user.HostingEvents[i] = eventModel;
+                            Console.WriteLine(user.Id);
+                            Console.WriteLine(user.HostingEvents[i].Id);
+                            Console.WriteLine(eventModel.Id);
                             _users.ReplaceOne(user.Id, user);
                             _redisUsersDatabase.StringSet(user.Id, JsonConvert.SerializeObject(user), ttl);
                         }
@@ -185,8 +192,16 @@ namespace YourCityEventsApi.Services
 
             _events.ReplaceOne(Event => Event.Id == id, eventModel);
             _redisEventsDatabase.StringSet(id, JsonConvert.SerializeObject(eventModel), ttl);
-        }
+        }*/
 
+        public void SubscribeOnEvent(string id, string token)
+        {
+            var user = _users.Find(u => u.Token == token).FirstOrDefault();
+            var Event = _events.Find(e => e.Id == id).FirstOrDefault();
+            Event.Visitors.ToList().Add(user);
+            _events.ReplaceOne(e => e.Id == id, Event);
+        }
+        
         public void Delete(string id)
         {
             var users = _users.Find(u => true).ToList();

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Xml.Schema;
 using Microsoft.AspNetCore;
@@ -83,9 +85,12 @@ namespace YourCityEventsApi
         
                 x.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
 
-               
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                x.IncludeXmlComments(xmlPath);
             });
 
+            
             services.AddSingleton<UserService>();
             services.AddSingleton<EventService>();
             services.AddSingleton<CityService>();
@@ -113,10 +118,13 @@ namespace YourCityEventsApi
             var swaggerOptions = new SwaggerOptions();
             Configuration.GetSection(nameof(swaggerOptions)).Bind(swaggerOptions);
             app.UseSwagger(option => { option.RouteTemplate = swaggerOptions.JsonRoute; });
-
+            
             app.UseSwaggerUI(option =>
             {
                 option.SwaggerEndpoint(swaggerOptions.UiEndpoint, swaggerOptions.Description);
+                option.InjectStylesheet("YourCityEventsApi.CustomSwagger.theme-monokai.css");
+                option.IndexStream = () => GetType().GetTypeInfo().Assembly
+                    .GetManifestResourceStream("YourCityEventsApi.CustomSwagger.index.html");
             });
 
             app.UseStaticFiles();

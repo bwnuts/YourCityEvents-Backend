@@ -157,6 +157,7 @@ namespace YourCityEventsApi.Services
             var directoryPath ="/users/"+user.Id+".jpg";
             var memoryStream = new MemoryStream(imageModel.Array);
             var image = Image.FromStream(memoryStream);
+            File.Delete(wwwrootPath+directoryPath);
             image.Save(wwwrootPath + directoryPath);
             var finalPath="https://yourcityevents.azurewebsites.net"+directoryPath;
             user.ImageUrl = finalPath;

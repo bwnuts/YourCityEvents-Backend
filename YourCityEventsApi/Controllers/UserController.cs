@@ -26,6 +26,11 @@ namespace YourCityEventsApi.Controllers
             return ResponseModel<List<UserModel>>.FormResponse("users",userList,"Unable to get users");
         }
 
+        /// <summary>
+        /// Get user by token
+        /// </summary>
+        /// <param name="Authorization"></param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<ResponseModel<UserModel>> Get([FromHeader] string Authorization)
         {
@@ -35,6 +40,11 @@ namespace YourCityEventsApi.Controllers
             return ResponseModel<UserModel>.FormResponse("user",user, "User not found");
         }
 
+        /// <summary>
+        /// Get user by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<ResponseModel<UserModel>> GetById(string id)
         {
@@ -43,6 +53,11 @@ namespace YourCityEventsApi.Controllers
             return ResponseModel<UserModel>.FormResponse("user",user,"User not found");
         }
 
+        /// <summary>
+        /// Get specific user's hosting events
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/hostingEvents")]
         public ActionResult<ResponseModel<List<EventModel>>> GetHostingEvents(string id)
         {
@@ -51,6 +66,11 @@ namespace YourCityEventsApi.Controllers
             return ResponseModel<List<EventModel>>.FormResponse("events",eventList,"Unable to get events");
         }
 
+        /// <summary>
+        ///  Get specific user's visiting events
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/visitingEvents")]
         public ActionResult<ResponseModel<List<EventModel>>> GetVisitingEvents(string id)
         {
