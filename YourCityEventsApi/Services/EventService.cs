@@ -57,7 +57,7 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
-                if (DateTime.ParseExact(Event.Date,"yyyy-MM-dd HH:mm",null).CompareTo(DateTime.Now) > 0)
+                if (DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now) > 0)
                 {
                     allEvents.Add(Event);
                 }
@@ -72,7 +72,7 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
-                if (Event.Location == cityModel && DateTime.ParseExact(Event.Date,"yyyy-MM-dd HH:mm",null).CompareTo(DateTime.Now) > 0)
+                if (Event.Location == cityModel && DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now) > 0)
                 {
                     allEvents.Add(Event);
                 }
@@ -88,7 +88,7 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
-                if (Event.Location == city&&DateTime.ParseExact(Event.Date,"yyyy-MM-dd HH:mm",null).CompareTo(DateTime.Now)>0)
+                if (Event.Location == city&&DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now)>0)
                 {
                     allEvents.Add(Event);
                 }
@@ -144,14 +144,20 @@ namespace YourCityEventsApi.Services
         public EventModel Create(CreateEventRequest eventModel,string ownerToken)
         {
             var owner = _users.Find(u => u.Token == ownerToken).FirstOrDefault();
-            var createdEvent=new EventModel(null,eventModel.Title,eventModel.Location,eventModel.DetailLocation
+            var createdEvent=new EventModel(null,eventModel.Title,owner.City,eventModel.DetailLocation
             ,eventModel.Description,owner,eventModel.Date,eventModel.Price);
             _events.InsertOne(createdEvent);
-            createdEvent = GetByTitle(eventModel.Title);
-            var imageUrl = UploadImage(createdEvent.Id, eventModel.ImageArray);
-            createdEvent.ImageUrl = imageUrl;
-            _events.ReplaceOne(e => e.Id == createdEvent.Id, createdEvent);
             _redisEventsDatabase.StringSet(createdEvent.Id, JsonConvert.SerializeObject(createdEvent), ttl);
+            createdEvent = GetByTitle(eventModel.Title);
+
+            if (eventModel.ImageArray != null)
+            {
+                var imageUrl = UploadImage(createdEvent.Id, eventModel.ImageArray);
+                createdEvent.ImageUrl = imageUrl;
+                _events.ReplaceOne(e => e.Id == createdEvent.Id, createdEvent);
+                _redisEventsDatabase.StringSet(createdEvent.Id, JsonConvert.SerializeObject(createdEvent), ttl);
+            }
+
             return createdEvent;
         }
 
