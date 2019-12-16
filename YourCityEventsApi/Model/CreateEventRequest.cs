@@ -7,13 +7,13 @@ namespace YourCityEventsApi.Model
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public string ImageArray { get; set; }
+        public byte[] ImageArray { get; set; }
         public int Price { get; set; }
         public CityModel Location { get; set; }
         public string DetailLocation { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
-        public CreateEventRequest(string title, string description, string imageArray
+        public CreateEventRequest(string title, string description, byte[] imageArray
             , int price,CityModel location, string detailLocation, string date)
         {
             Title = title;
@@ -22,7 +22,8 @@ namespace YourCityEventsApi.Model
             Price = price;
             Location = location;
             DetailLocation = detailLocation;
-            Date = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm", null);
+            Date = date;
+            //Date = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm", null);
         }
     }
 }

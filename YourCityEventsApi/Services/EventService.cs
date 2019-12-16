@@ -57,7 +57,7 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
-                if (Event.Date.CompareTo(DateTime.Now) > 0)
+                if (DateTime.ParseExact(Event.Date,"yyyy-MM-dd HH:mm",null).CompareTo(DateTime.Now) > 0)
                 {
                     allEvents.Add(Event);
                 }
@@ -72,7 +72,7 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
-                if (Event.Location == cityModel && Event.Date.CompareTo(DateTime.Now) > 0)
+                if (Event.Location == cityModel && DateTime.ParseExact(Event.Date,"yyyy-MM-dd HH:mm",null).CompareTo(DateTime.Now) > 0)
                 {
                     allEvents.Add(Event);
                 }
@@ -88,7 +88,7 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
-                if (Event.Location == city&&Event.Date.CompareTo(DateTime.Now)>0)
+                if (Event.Location == city&&DateTime.ParseExact(Event.Date,"yyyy-MM-dd HH:mm",null).CompareTo(DateTime.Now)>0)
                 {
                     allEvents.Add(Event);
                 }
@@ -130,11 +130,11 @@ namespace YourCityEventsApi.Services
             return Get(id).Visitors.ToList();
         }
 
-        private string UploadImage(string eventId,string array)
+        private string UploadImage(string eventId,byte[] array)
         {
             var wwwrootPath = _hostingEnvironment.WebRootPath;
             var directoryPath = "/events/" + eventId + ".jpg";
-            var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(array));
+            var memoryStream = new MemoryStream(array);
             var image = Image.FromStream(memoryStream);
             File.Delete(wwwrootPath+directoryPath);
             image.Save(wwwrootPath+directoryPath);
@@ -145,7 +145,7 @@ namespace YourCityEventsApi.Services
         {
             var owner = _users.Find(u => u.Token == ownerToken).FirstOrDefault();
             var createdEvent=new EventModel(null,eventModel.Title,eventModel.Location,eventModel.DetailLocation
-            ,eventModel.Description,owner,eventModel.Date.ToString(),eventModel.Price);
+            ,eventModel.Description,owner,eventModel.Date,eventModel.Price);
             _events.InsertOne(createdEvent);
             createdEvent = GetByTitle(eventModel.Title);
             var imageUrl = UploadImage(createdEvent.Id, eventModel.ImageArray);

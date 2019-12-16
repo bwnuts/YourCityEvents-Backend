@@ -23,9 +23,9 @@ namespace YourCityEventsApi.Model
         public UserModel Owner { get; set; }
         
         [BsonElement("date")]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         
-        [BsonElement("image_urls")]
+        [BsonElement("image_url")]
         public string ImageUrl { get; set; }
         
         [BsonElement("detail_location")]
@@ -46,7 +46,8 @@ namespace YourCityEventsApi.Model
             DetailLocation = detailLocation;
             Description = description;
             Owner = owner;
-            Date = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm", null);
+            Date = date;
+            //Date = DateTime.ParseExact(date, "MM/dd/yy HH:mm", null);
             ImageUrl = imageUrl;
             Visitors = visitors;
             Price = price;
