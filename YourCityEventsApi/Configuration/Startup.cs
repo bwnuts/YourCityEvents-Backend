@@ -91,9 +91,10 @@ namespace YourCityEventsApi
             });
 
             
-            services.AddSingleton<UserService>();
-            services.AddSingleton<EventService>();
-            services.AddSingleton<CityService>();
+            services.AddScoped<UserService>();
+            services.AddScoped<EventService>();
+            services.AddScoped<CityService>();
+            services.AddScoped<ConvertModelsService>();
             services.AddScoped<IdentityService>();
 
             services.AddDistributedMemoryCache();

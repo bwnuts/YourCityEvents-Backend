@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< Updated upstream
     "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj": {}
   },
   "projects": {
@@ -12,6 +13,33 @@
         "projectPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
         "packagesPath": "/home/bwnuts/.nuget/packages/",
         "outputPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/obj/",
+=======
+<<<<<<< HEAD
+    "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj": {}
+  },
+  "projects": {
+    "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
+        "projectName": "YourCityEventsApi",
+        "projectPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
+        "packagesPath": "/home/bwnuts/.nuget/packages/",
+        "outputPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/",
+=======
+    "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj": {}
+  },
+  "projects": {
+    "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
+        "projectName": "YourCityEventsApi",
+        "projectPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
+        "packagesPath": "/home/bwnuts/.nuget/packages/",
+        "outputPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/obj/",
+>>>>>>> 7577a1ca9eda6699f8efc4b06ac3a5daefa230c0
+>>>>>>> Stashed changes
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"

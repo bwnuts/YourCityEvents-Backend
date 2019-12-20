@@ -15,8 +15,8 @@ namespace YourCityEventsApi.ScheduleTask
 
     public class ScopedService:IScopedService
     {
-        private readonly IMongoCollection<UserModel> _users;
-        private readonly IMongoCollection<EventModel> _events;
+        private readonly IMongoCollection<BackendUserModel> _users;
+        private readonly IMongoCollection<BackendEventModel> _events;
         private readonly IMongoCollection<CityModel> _cities;
         private IDatabase _redisUsersDatabase;
         private IDatabase _redisEventsDatabase;
@@ -26,8 +26,8 @@ namespace YourCityEventsApi.ScheduleTask
         {
             var client=new MongoClient(mongoSettings.ConnectionString);
             var database = client.GetDatabase(mongoSettings.DatabaseName);
-            _users = database.GetCollection<UserModel>("Users");
-            _events = database.GetCollection<EventModel>("Events");
+            _users = database.GetCollection<BackendUserModel>("Users");
+            _events = database.GetCollection<BackendEventModel>("Events");
             _cities = database.GetCollection<CityModel>("Cities");
             
             var redis = RedisSettings.GetConnectionMultiplexer();
@@ -40,6 +40,7 @@ namespace YourCityEventsApi.ScheduleTask
         {
             while (!cancellationToken.IsCancellationRequested)
             {
+                Console.WriteLine("begin");
                 TimeSpan ttl = new TimeSpan(0, 1, 59, 59);
 
                 var allUsers = _users.Find(u => true).ToList();
@@ -60,8 +61,8 @@ namespace YourCityEventsApi.ScheduleTask
                 {
                     _redisCitiesDatabase.StringSet(city.Id, JsonConvert.SerializeObject(city), ttl);
                 }
-
-                await Task.Delay(2 * 60 * 60 * 1000, cancellationToken);
+                Console.WriteLine("end");
+                await Task.Delay(10*60* 1000, cancellationToken);
             }
         }
     }

@@ -16,29 +16,32 @@ namespace YourCityEventsApi.Services
 {
     public class EventService
     {
-        private IMongoCollection<EventModel> _events;
-        private IMongoCollection<UserModel> _users;
+        private IMongoCollection<BackendEventModel> _events;
+        private IMongoCollection<BackendUserModel> _users;
         private IDatabase _redisEventsDatabase;
         private IDatabase _redisUsersDatabase;
-        private IServer _server;
         private IEnumerable<RedisKey> _keys;
         private readonly TimeSpan ttl = new TimeSpan(0, 1, 59, 59);
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public EventService(IMongoSettings settings, IHostingEnvironment hostingEnvironment)
+        private readonly ConvertModelsService _convertModelsService;
+        
+        public EventService(IMongoSettings settings, IHostingEnvironment hostingEnvironment
+        ,ConvertModelsService convertModelsService)
         {
             var client=new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
-            _events = database.GetCollection<EventModel>("Events");
+            _events = database.GetCollection<BackendEventModel>("Events");
             _hostingEnvironment = hostingEnvironment;
 
-            _users = database.GetCollection<UserModel>("Users");
+            _users = database.GetCollection<BackendUserModel>("Users");
             
             var redis = RedisSettings.GetConnectionMultiplexer();
             _redisUsersDatabase = redis.GetDatabase(0);
             _redisEventsDatabase = redis.GetDatabase(1);
-            _server = redis.GetServer(_redisEventsDatabase.Multiplexer.GetEndPoints().First());
-            _keys = _server.Keys(1);
+            _keys = redis.GetServer(_redisEventsDatabase.Multiplexer.GetEndPoints().First()).Keys(1);
+
+            _convertModelsService = convertModelsService;
         }
 
         public List<EventModel> GetAll()
@@ -46,7 +49,9 @@ namespace YourCityEventsApi.Services
             var allEvents = new List<EventModel>();
             foreach (var key in _keys)
             {
-                allEvents.Add(JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key)));
+                Console.WriteLine(key);
+                allEvents.Add(_convertModelsService.GetEventModel(
+                    JsonConvert.DeserializeObject<BackendEventModel>(_redisEventsDatabase.StringGet(key))));
             }
             return allEvents;
         }
@@ -56,10 +61,10 @@ namespace YourCityEventsApi.Services
             var allEvents = new List<EventModel>();
             foreach (var key in _keys)
             {
-                var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
+                var Event = JsonConvert.DeserializeObject<BackendEventModel>(_redisEventsDatabase.StringGet(key));
                 if (DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now) > 0)
                 {
-                    allEvents.Add(Event);
+                    allEvents.Add(_convertModelsService.GetEventModel(Event));
                 }
             }
 
@@ -71,10 +76,11 @@ namespace YourCityEventsApi.Services
             var allEvents = new List<EventModel>();
             foreach (var key in _keys)
             {
-                var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
+                var Event = JsonConvert.DeserializeObject<BackendEventModel>(_redisEventsDatabase.StringGet(key));
+
                 if (Event.Location.Id == cityModel.Id && DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now) > 0)
                 {
-                    allEvents.Add(Event);
+                    allEvents.Add(_convertModelsService.GetEventModel(Event));
                 }
             }
 
@@ -87,10 +93,11 @@ namespace YourCityEventsApi.Services
             var city = _users.Find(u => u.Token == token).FirstOrDefault().City;
             foreach (var key in _keys)
             {
-                var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
+                var Event = JsonConvert.DeserializeObject<BackendEventModel>(_redisEventsDatabase.StringGet(key));
+
                 if (Event.Location.Id == city.Id&&DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now)>0)
                 {
-                    allEvents.Add(Event);
+                    allEvents.Add(_convertModelsService.GetEventModel(Event));
                 }
             }
 
@@ -101,10 +108,10 @@ namespace YourCityEventsApi.Services
         {
             foreach (var key in _keys)
             {
-                var Event=JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
+                var Event=JsonConvert.DeserializeObject<BackendEventModel>(_redisEventsDatabase.StringGet(key));
                 if (Event.Id == id)
                 {
-                    return Event;
+                    return _convertModelsService.GetEventModel(Event);
                 }
             }
 
@@ -115,10 +122,10 @@ namespace YourCityEventsApi.Services
         {
             foreach (var key in _keys)
             {
-                var Event=JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
+                var Event=JsonConvert.DeserializeObject<BackendEventModel>(_redisEventsDatabase.StringGet(key));
                 if (Event.Title == title)
                 {
-                    return Event;
+                    return _convertModelsService.GetEventModel(Event);
                 }
             }
 
@@ -144,11 +151,11 @@ namespace YourCityEventsApi.Services
         public EventModel Create(CreateEventRequest eventModel,string ownerToken)
         {
             var owner = _users.Find(u => u.Token == ownerToken).FirstOrDefault();
-            var createdEvent=new EventModel(null,eventModel.Title,owner.City,eventModel.DetailLocation
-            ,eventModel.Description,owner,eventModel.Date,eventModel.Price);
+            var createdEvent=new BackendEventModel(null,eventModel.Title,owner.City,eventModel.DetailLocation
+            ,eventModel.Description,owner.Id,eventModel.Date,eventModel.Price);
             _events.InsertOne(createdEvent);
             _redisEventsDatabase.StringSet(createdEvent.Id, JsonConvert.SerializeObject(createdEvent), ttl);
-            createdEvent = GetByTitle(eventModel.Title);
+            createdEvent = _convertModelsService.GetBackendEventModel(GetByTitle(eventModel.Title));
 
             if (eventModel.ImageArray != null)
             {
@@ -158,7 +165,7 @@ namespace YourCityEventsApi.Services
                 _redisEventsDatabase.StringSet(createdEvent.Id, JsonConvert.SerializeObject(createdEvent), ttl);
             }
 
-            return createdEvent;
+            return _convertModelsService.GetEventModel(createdEvent);
         }
 
         /*public void Update(string id,EventModel eventModel)
@@ -204,8 +211,9 @@ namespace YourCityEventsApi.Services
         {
             var user = _users.Find(u => u.Token == token).FirstOrDefault();
             var Event = _events.Find(e => e.Id == id).FirstOrDefault();
-            Event.Visitors.ToList().Add(user);
+            Event.Visitors.ToList().Add(user.Id);
             _events.ReplaceOne(e => e.Id == id, Event);
+            _redisEventsDatabase.StringSet(id, JsonConvert.SerializeObject(Event), ttl);
         }
         
         public void Delete(string id)
@@ -213,8 +221,8 @@ namespace YourCityEventsApi.Services
             var users = _users.Find(u => true).ToList();
             foreach (var user in users)
             {
-                user.HostingEvents = user.HostingEvents.Where(e => e.Id != id).ToArray();
-                user.VisitingEvents = user.VisitingEvents.Where(e => e.Id != id).ToArray();
+                user.HostingEvents = user.HostingEvents.Where(i => i != id).ToArray();
+                user.VisitingEvents = user.VisitingEvents.Where(i => i != id).ToArray();
                 _users.ReplaceOne(user.Id, user);
                 _redisUsersDatabase.StringSet(user.Id, JsonConvert.SerializeObject(user), ttl);
             }
