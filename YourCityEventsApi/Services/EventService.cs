@@ -72,7 +72,7 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
-                if (Event.Location == cityModel && DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now) > 0)
+                if (Event.Location.Id == cityModel.Id && DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now) > 0)
                 {
                     allEvents.Add(Event);
                 }
@@ -88,7 +88,7 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<EventModel>(_redisEventsDatabase.StringGet(key));
-                if (Event.Location == city&&DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now)>0)
+                if (Event.Location.Id == city.Id&&DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now)>0)
                 {
                     allEvents.Add(Event);
                 }
