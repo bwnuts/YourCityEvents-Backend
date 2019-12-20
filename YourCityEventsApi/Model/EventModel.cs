@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
@@ -37,8 +38,8 @@ namespace YourCityEventsApi.Model
         [BsonElement("price")]
         public long Price { get; set; }
 
-        public EventModel(string id, string title, CityModel location, string detailLocation,string description, UserModel owner
-        ,string date, long price,string imageUrl = null, UserModel[] visitors=null)
+        public EventModel(string id, string title, CityModel location, string detailLocation,string description
+            , UserModel owner,string date, long price,string imageUrl = null, UserModel[] visitors=null)
         {
             Id = id;
             Title = title;
@@ -47,10 +48,18 @@ namespace YourCityEventsApi.Model
             Description = description;
             Owner = owner;
             Date = date;
-            //Date = DateTime.ParseExact(date, "MM/dd/yy HH:mm", null);
             ImageUrl = imageUrl;
             Visitors = visitors;
             Price = price;
+        }
+
+        public static EventModel ConvertToEventModel(BackendEventModel backendEventModel)
+        {
+            
+            return new EventModel(backendEventModel.Id,backendEventModel.Title,backendEventModel.Location
+            ,backendEventModel.DetailLocation,backendEventModel.Description,
+            null,backendEventModel.Date,backendEventModel.Price,
+            backendEventModel.ImageUrl);
         }
     }
 }
