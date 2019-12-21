@@ -40,6 +40,7 @@ namespace YourCityEventsApi.ScheduleTask
         {
             while (!cancellationToken.IsCancellationRequested)
             {
+                Console.WriteLine("begin");
                 TimeSpan ttl = new TimeSpan(0, 1, 59, 59);
 
                 var allUsers = _users.Find(u => true).ToList();
@@ -62,6 +63,7 @@ namespace YourCityEventsApi.ScheduleTask
                 }
                 
                 await Task.Delay(2*60*60* 1000, cancellationToken);
+
             }
         }
     }

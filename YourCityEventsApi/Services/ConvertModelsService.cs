@@ -116,8 +116,10 @@ namespace YourCityEventsApi.Services
         {
             var backendEventModel = BackendEventModel.ConvertToBackendEventModel(eventModel);
 
+
             var owner = JsonConvert.DeserializeObject<BackendEventModel>(
                 _redisUsersDatabase.StringGet(eventModel.Owner.Id));
+
             var visitors = new List<string>();
 
             if (eventModel.Visitors != null)

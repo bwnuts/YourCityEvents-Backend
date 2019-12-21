@@ -77,6 +77,10 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<BackendEventModel>(_redisEventsDatabase.StringGet(key));
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2cd240f2ef0f6c51e36a6ccf28c66bb287d1bb50
                 if (Event.Location.Id == cityModel.Id && DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now) > 0)
                 {
                     allEvents.Add(_convertModelsService.GetEventModel(Event));
@@ -94,7 +98,7 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<BackendEventModel>(_redisEventsDatabase.StringGet(key));
-                
+
                 if (Event.Location.Id == city.Id&&DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now)>0)
                 {
                     allEvents.Add(_convertModelsService.GetEventModel(Event));
@@ -150,7 +154,18 @@ namespace YourCityEventsApi.Services
 
         public EventModel Create(CreateEventRequest eventModel,string ownerToken)
         {
+<<<<<<< HEAD
             if (_events.Find(e => e.Title == eventModel.Title).FirstOrDefault() == null)
+=======
+            var owner = _users.Find(u => u.Token == ownerToken).FirstOrDefault();
+            var createdEvent=new BackendEventModel(null,eventModel.Title,owner.City,eventModel.DetailLocation
+            ,eventModel.Description,owner.Id,eventModel.Date,eventModel.Price);
+            _events.InsertOne(createdEvent);
+            _redisEventsDatabase.StringSet(createdEvent.Id, JsonConvert.SerializeObject(createdEvent), ttl);
+            createdEvent = _convertModelsService.GetBackendEventModel(GetByTitle(eventModel.Title));
+
+            if (eventModel.ImageArray != null)
+>>>>>>> 2cd240f2ef0f6c51e36a6ccf28c66bb287d1bb50
             {
                 var owner = _users.Find(u => u.Token == ownerToken).FirstOrDefault();
                 var createdEvent = new BackendEventModel(null, eventModel.Title, owner.City, eventModel.DetailLocation
@@ -174,7 +189,11 @@ namespace YourCityEventsApi.Services
                 return _convertModelsService.GetEventModel(createdEvent);
             }
 
+<<<<<<< HEAD
             return null;
+=======
+            return _convertModelsService.GetEventModel(createdEvent);
+>>>>>>> 2cd240f2ef0f6c51e36a6ccf28c66bb287d1bb50
         }
 
         /*public void Update(string id,EventModel eventModel)
