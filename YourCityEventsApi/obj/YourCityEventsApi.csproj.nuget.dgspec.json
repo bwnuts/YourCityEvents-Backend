@@ -1,7 +1,6 @@
 {
   "format": 1,
   "restore": {
-
     "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj": {}
   },
   "projects": {
@@ -13,8 +12,6 @@
         "projectPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
         "packagesPath": "/home/bwnuts/.nuget/packages/",
         "outputPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/",
-
-
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"
