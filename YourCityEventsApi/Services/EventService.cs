@@ -250,12 +250,26 @@ namespace YourCityEventsApi.Services
         public void Delete(string id)
         {
             var users = _users.Find(u => true).ToList();
+            var usersList=new List<BackendUserModel>();
+            
             foreach (var user in users)
             {
-                user.HostingEvents = user.HostingEvents.Where(i => i != id).ToArray();
-                user.VisitingEvents = user.VisitingEvents.Where(i => i != id).ToArray();
-                _users.ReplaceOne(user.Id, user);
-                _redisUsersDatabase.StringSet(user.Id, JsonConvert.SerializeObject(user), ttl);
+                if (user.HostingEvents!=null)
+                    user.HostingEvents = user.HostingEvents.Where(i => i != id).ToArray();
+                if (user.VisitingEvents!=null)
+                    user.VisitingEvents = user.VisitingEvents.Where(i => i != id).ToArray();
+
+                usersList.Add(user);
+                _redisUsersDatabase.KeyDelete(user.Id);
+                
+            }
+
+            _users.DeleteMany(u => true);
+            _users.InsertMany(users);
+
+            foreach (var user in users)
+            {
+                _redisUsersDatabase.StringSet(user.Id, JsonConvert.SerializeObject(user));
             }
 
             _events.DeleteOne(Event => Event.Id == id);
