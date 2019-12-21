@@ -62,7 +62,7 @@ namespace YourCityEventsApi.ScheduleTask
                     _redisCitiesDatabase.StringSet(city.Id, JsonConvert.SerializeObject(city), ttl);
                 }
                 Console.WriteLine("end");
-                await Task.Delay(10*60* 1000, cancellationToken);
+                await Task.Delay(2*60*60* 1000, cancellationToken);
             }
         }
     }

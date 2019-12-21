@@ -13721,27 +13721,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< Updated upstream
-      "projectUniqueName": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
-      "projectName": "YourCityEventsApi",
-      "projectPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
-      "packagesPath": "/home/bwnuts/.nuget/packages/",
-      "outputPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/obj/",
-=======
-<<<<<<< HEAD
       "projectUniqueName": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
       "projectName": "YourCityEventsApi",
       "projectPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
       "packagesPath": "/home/bwnuts/.nuget/packages/",
       "outputPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/",
-=======
-      "projectUniqueName": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
-      "projectName": "YourCityEventsApi",
-      "projectPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
-      "packagesPath": "/home/bwnuts/.nuget/packages/",
-      "outputPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/obj/",
->>>>>>> 7577a1ca9eda6699f8efc4b06ac3a5daefa230c0
->>>>>>> Stashed changes
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
@@ -13832,6 +13816,12 @@
     }
   },
   "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file /home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/YourCityEventsApi.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
     {
       "code": "NU1701",
       "level": "Warning",
