@@ -77,7 +77,10 @@ namespace YourCityEventsApi.Services
             foreach (var key in _keys)
             {
                 var Event = JsonConvert.DeserializeObject<BackendEventModel>(_redisEventsDatabase.StringGet(key));
+<<<<<<< HEAD
+=======
 
+>>>>>>> 2cd240f2ef0f6c51e36a6ccf28c66bb287d1bb50
                 if (Event.Location.Id == cityModel.Id && DateTime.ParseExact(Event.Date,"dd/MM/yyyy HH:mm",null).CompareTo(DateTime.Now) > 0)
                 {
                     allEvents.Add(_convertModelsService.GetEventModel(Event));
@@ -90,6 +93,7 @@ namespace YourCityEventsApi.Services
         public List<EventModel> GetByToken(string token)
         {
             var allEvents = new List<EventModel>();
+            Console.WriteLine(token);
             var city = _users.Find(u => u.Token == token).FirstOrDefault().City;
             foreach (var key in _keys)
             {
@@ -150,6 +154,9 @@ namespace YourCityEventsApi.Services
 
         public EventModel Create(CreateEventRequest eventModel,string ownerToken)
         {
+<<<<<<< HEAD
+            if (_events.Find(e => e.Title == eventModel.Title).FirstOrDefault() == null)
+=======
             var owner = _users.Find(u => u.Token == ownerToken).FirstOrDefault();
             var createdEvent=new BackendEventModel(null,eventModel.Title,owner.City,eventModel.DetailLocation
             ,eventModel.Description,owner.Id,eventModel.Date,eventModel.Price);
@@ -158,14 +165,35 @@ namespace YourCityEventsApi.Services
             createdEvent = _convertModelsService.GetBackendEventModel(GetByTitle(eventModel.Title));
 
             if (eventModel.ImageArray != null)
+>>>>>>> 2cd240f2ef0f6c51e36a6ccf28c66bb287d1bb50
             {
-                var imageUrl = UploadImage(createdEvent.Id, eventModel.ImageArray);
-                createdEvent.ImageUrl = imageUrl;
-                _events.ReplaceOne(e => e.Id == createdEvent.Id, createdEvent);
+                var owner = _users.Find(u => u.Token == ownerToken).FirstOrDefault();
+                var createdEvent = new BackendEventModel(null, eventModel.Title, owner.City, eventModel.DetailLocation
+                    , eventModel.Description, owner.Id, eventModel.Date, eventModel.Price);
+                _events.InsertOne(createdEvent);
                 _redisEventsDatabase.StringSet(createdEvent.Id, JsonConvert.SerializeObject(createdEvent), ttl);
+                createdEvent = _convertModelsService.GetBackendEventModel(GetByTitle(eventModel.Title));
+
+                if (eventModel.ImageArray != null)
+                {
+                    Console.WriteLine("!!!!!!!");
+                    var imageUrl = UploadImage(createdEvent.Id, eventModel.ImageArray);
+                    Console.WriteLine("!!!!!!!");
+                    createdEvent.ImageUrl = imageUrl;
+                    _events.ReplaceOne(e => e.Id == createdEvent.Id, createdEvent);
+                    Console.WriteLine("!!!!!!!");
+                    _redisEventsDatabase.StringSet(createdEvent.Id, JsonConvert.SerializeObject(createdEvent), ttl);
+                    Console.WriteLine("!!!!!!!");
+                }
+
+                return _convertModelsService.GetEventModel(createdEvent);
             }
 
+<<<<<<< HEAD
+            return null;
+=======
             return _convertModelsService.GetEventModel(createdEvent);
+>>>>>>> 2cd240f2ef0f6c51e36a6ccf28c66bb287d1bb50
         }
 
         /*public void Update(string id,EventModel eventModel)
