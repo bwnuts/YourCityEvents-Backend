@@ -28,3 +28,5 @@
 /home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.pdb
 /home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/bin/Debug/netcoreapp2.2/YourCityEventsApi.xml
 /home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.xml
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/bin/Debug/netcoreapp2.2/YourCityEventsApi.xml
+/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/Debug/netcoreapp2.2/YourCityEventsApi.xml

@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace YourCityEventsApi.Model
 {
-    public class EventModel
+    public class BackendEventModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -21,7 +19,7 @@ namespace YourCityEventsApi.Model
         public string Description { get; set; }
         
         [BsonElement("owner")]
-        public UserModel Owner { get; set; }
+        public string Owner { get; set; }
         
         [BsonElement("date")]
         public string Date { get; set; }
@@ -33,13 +31,13 @@ namespace YourCityEventsApi.Model
         public string DetailLocation { get; set; }
         
         [BsonElement("visitors")]
-        public UserModel[] Visitors { get; set; }
+        public string[] Visitors { get; set; }
         
         [BsonElement("price")]
         public long Price { get; set; }
-
-        public EventModel(string id, string title, CityModel location, string detailLocation,string description
-            , UserModel owner,string date, long price,string imageUrl = null, UserModel[] visitors=null)
+        
+        public BackendEventModel(string id, string title, CityModel location, string detailLocation,string description
+            , string owner,string date, long price,string imageUrl = null, string[] visitors=null)
         {
             Id = id;
             Title = title;
@@ -53,13 +51,12 @@ namespace YourCityEventsApi.Model
             Price = price;
         }
 
-        public static EventModel ConvertToEventModel(BackendEventModel backendEventModel)
+        public static BackendEventModel ConvertToBackendEventModel(EventModel eventModel)
         {
-            
-            return new EventModel(backendEventModel.Id,backendEventModel.Title,backendEventModel.Location
-            ,backendEventModel.DetailLocation,backendEventModel.Description,
-            null,backendEventModel.Date,backendEventModel.Price,
-            backendEventModel.ImageUrl);
+            return new BackendEventModel(eventModel.Id,eventModel.Title,eventModel.Location
+                ,eventModel.DetailLocation,eventModel.Description,
+                null,eventModel.Date,eventModel.Price,
+                eventModel.ImageUrl);
         }
     }
 }

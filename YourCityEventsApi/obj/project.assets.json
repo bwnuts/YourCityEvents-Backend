@@ -13721,11 +13721,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
+      "projectUniqueName": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
       "projectName": "YourCityEventsApi",
-      "projectPath": "/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
+      "projectPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
       "packagesPath": "/home/bwnuts/.nuget/packages/",
-      "outputPath": "/home/bwnuts/RiderProjects/YourCityEventsApi/YourCityEventsApi/obj/",
+      "outputPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"

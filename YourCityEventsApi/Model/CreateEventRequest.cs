@@ -1,5 +1,3 @@
-using System;
-using System.Net.Mime;
 
 namespace YourCityEventsApi.Model
 {
@@ -21,7 +19,6 @@ namespace YourCityEventsApi.Model
             Price = price;
             DetailLocation = detailLocation;
             Date = date;
-            //Date = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm", null);
         }
     }
 }

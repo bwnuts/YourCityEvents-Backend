@@ -59,11 +59,11 @@ namespace YourCityEventsApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}/hostingEvents")]
-        public ActionResult<ResponseModel<List<EventModel>>> GetHostingEvents(string id)
+        public ActionResult<ResponseModel<List<BackendEventModel>>> GetHostingEvents(string id)
         {
             var eventList=  _userService.GetHostingEvents(id);
 
-            return ResponseModel<List<EventModel>>.FormResponse("events",eventList,"Unable to get events");
+            return ResponseModel<List<BackendEventModel>>.FormResponse("events",eventList,"Unable to get events");
         }
 
         /// <summary>
@@ -72,15 +72,15 @@ namespace YourCityEventsApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}/visitingEvents")]
-        public ActionResult<ResponseModel<List<EventModel>>> GetVisitingEvents(string id)
+        public ActionResult<ResponseModel<List<BackendEventModel>>> GetVisitingEvents(string id)
         {
             var eventList=_userService.GetVisitingEvents(id);
 
-            return ResponseModel<List<EventModel>>.FormResponse("events",eventList,"Unable to get events");
+            return ResponseModel<List<BackendEventModel>>.FormResponse("events",eventList,"Unable to get events");
         }
 
         [HttpPost]
-        public ActionResult<ResponseModel<UserModel>> Create(UserModel userModel)
+        public ActionResult<ResponseModel<UserModel>> Create(BackendUserModel userModel)
         {
             var user= _userService.Create(userModel);
 
