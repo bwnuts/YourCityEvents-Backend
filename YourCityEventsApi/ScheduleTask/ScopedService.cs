@@ -40,7 +40,6 @@ namespace YourCityEventsApi.ScheduleTask
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                Console.WriteLine("begin");
                 TimeSpan ttl = new TimeSpan(0, 1, 59, 59);
 
                 var allUsers = _users.Find(u => true).ToList();

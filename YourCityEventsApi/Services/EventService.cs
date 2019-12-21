@@ -8,6 +8,7 @@ using System.Text;
 using System.Drawing;
 using Microsoft.AspNetCore.Hosting;
 using MongoDB.Bson;
+using MongoDB.Driver.Linq;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
@@ -68,7 +69,11 @@ namespace YourCityEventsApi.Services
                 }
             }
 
-            return allEvents;
+            var orderedEvents = from i in allEvents
+                orderby DateTime.ParseExact(i.Date, "dd/MM/yyyy HH:mm", null)
+                select i;
+
+            return orderedEvents.ToList();
         }
 
         public List<EventModel> GetByCity(CityModel cityModel)
@@ -84,7 +89,11 @@ namespace YourCityEventsApi.Services
                 }
             }
 
-            return allEvents;
+            var orderedEvents = from i in allEvents
+                orderby DateTime.ParseExact(i.Date, "dd/MM/yyyy HH:mm", null)
+                select i;
+
+            return orderedEvents.ToList();
         }
 
         public List<EventModel> GetByToken(string token)
@@ -102,7 +111,11 @@ namespace YourCityEventsApi.Services
                 }
             }
 
-            return allEvents;
+            var orderedEvents = from i in allEvents
+                orderby DateTime.ParseExact(i.Date, "dd/MM/yyyy HH:mm", null)
+                select i;
+
+            return orderedEvents.ToList();
         }
 
         public EventModel Get(string id)
@@ -162,16 +175,26 @@ namespace YourCityEventsApi.Services
                 createdEvent = _convertModelsService.GetBackendEventModel(GetByTitle(eventModel.Title));
 
                 if (eventModel.ImageArray != null)
-                    {
-                        var imageUrl = UploadImage(createdEvent.Id, eventModel.ImageArray);
-                        createdEvent.ImageUrl = imageUrl;
-                        _events.ReplaceOne(e => e.Id == createdEvent.Id, createdEvent);
-                        _redisEventsDatabase.StringSet(createdEvent.Id, JsonConvert.SerializeObject(createdEvent), ttl);
-                    }
-
-                    return _convertModelsService.GetEventModel(createdEvent);
+                {
+                    var imageUrl = UploadImage(createdEvent.Id, eventModel.ImageArray);
+                    createdEvent.ImageUrl = imageUrl;
+                    _events.ReplaceOne(e => e.Id == createdEvent.Id, createdEvent);
+                    _redisEventsDatabase.StringSet(createdEvent.Id, JsonConvert.SerializeObject(createdEvent), ttl);
                 }
-            
+
+                var list=new List<string>();
+                if (owner.HostingEvents != null)
+                {
+                    list = owner.HostingEvents.ToList();
+                }
+                list.Add(createdEvent.Id);
+                owner.HostingEvents = list.ToArray();
+                _users.ReplaceOne(u => u.Id == owner.Id, owner);
+                _redisUsersDatabase.StringSet(owner.Id, JsonConvert.SerializeObject(owner),ttl);
+                
+                return _convertModelsService.GetEventModel(createdEvent);
+            }
+
 
             return null;
         }
