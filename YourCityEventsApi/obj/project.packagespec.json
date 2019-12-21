@@ -1,31 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-<<<<<<< HEAD
     "projectUniqueName": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
     "projectName": "YourCityEventsApi",
     "projectPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
     "outputPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/",
-=======
-<<<<<<< Updated upstream
-    "projectUniqueName": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
-    "projectName": "YourCityEventsApi",
-    "projectPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
-    "outputPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/obj/",
-=======
-<<<<<<< HEAD
-    "projectUniqueName": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
-    "projectName": "YourCityEventsApi",
-    "projectPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/YourCityEventsApi.csproj",
-    "outputPath": "/home/bwnuts/Documents/YourCityEventsApi/YourCityEventsApi/obj/",
-=======
-    "projectUniqueName": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
-    "projectName": "YourCityEventsApi",
-    "projectPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/YourCityEventsApi.csproj",
-    "outputPath": "/home/bwnuts/RiderProjects/zalupa/YourCityEventsApi/obj/",
->>>>>>> 7577a1ca9eda6699f8efc4b06ac3a5daefa230c0
->>>>>>> Stashed changes
->>>>>>> 2cd240f2ef0f6c51e36a6ccf28c66bb287d1bb50
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "/usr/share/dotnet/sdk/NuGetFallbackFolder"
